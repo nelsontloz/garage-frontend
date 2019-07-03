@@ -1,0 +1,37 @@
+<div class="booking">
+    <div class="tabs is-boxed">
+        <ul>
+            <li *ngFor="let month of months; let monthIndex = index" (click)="setMonth(month)">
+                <a>{{ month }}</a>
+            </li>
+        </ul>
+    </div>
+    <aside class="menu">
+        <!-- <p class="menu-label">
+            General
+        </p> -->
+        <ul class="menu-list">
+            <li *ngFor="let week of weeks; let i = index">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Week {{ i + 1 }}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div *ngFor="let day of week; let dayIndex = index" class="content">
+                            <p *ngIf="day !== 0">
+                                {{ calendar.weekdays[dayIndex] + ' ' + day + 'th' }}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <footer class="card-footer">
+                        <a href="#" class="card-footer-item">Save</a>
+                        <a href="#" class="card-footer-item">Edit</a>
+                        <a href="#" class="card-footer-item">Delete</a>
+                    </footer> -->
+                </div>
+            </li>
+        </ul>
+    </aside>
+</div>

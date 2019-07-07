@@ -1,10 +1,10 @@
 <div class="container">
 
-
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <a class="navbar-item" routerLink="/home">
+        <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
+        Ger's Garage
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -17,12 +17,63 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
-          Home
-        </a>
+          <a class="navbar-item" routerLink="/booking">
+            Booking
+          </a>
 
-        <a class="navbar-item">
-          Documentation
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item" routerLink="/booking">
+              Booking
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary" routerLink="/create-account">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light" routerLink="/login">
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- 
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" routerLink="/home">
+        <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
+        Ger's Garage
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+
+      <div class="navbar-start">
+
+        <a class="navbar-item" routerLink="/booking">
+          Booking
         </a>
 
         <div class="navbar-item has-dropdown is-hoverable">
@@ -51,31 +102,19 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a class="button is-primary" routerLink="/create-account">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light">
+            <a class="button is-light" routerLink="/login">
               Log in
             </a>
           </div>
         </div>
       </div>
+
     </div>
-  </nav>
+  </nav> -->
 
-
-  <ul>
-      <li>
-        <a routerLink="/login">Login</a>
-      </li>
-      <li>
-        <a routerLink="/create-account">Create Account</a>
-      </li>
-      <li>
-        <a routerLink="/booking">Booking</a>
-      </li>
-    </ul>
-
+  <router-outlet></router-outlet>
+  <app-notification></app-notification>
 </div>
-
-<router-outlet></router-outlet>

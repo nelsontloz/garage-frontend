@@ -1,4 +1,4 @@
-<div class="booking">
+<div class="booking section">
     <div class="tabs is-boxed">
         <ul>
             <li *ngFor="let month of months; let monthIndex = index" (click)="setMonth(month)">
@@ -7,9 +7,6 @@
         </ul>
     </div>
     <aside class="menu">
-        <!-- <p class="menu-label">
-            General
-        </p> -->
         <ul class="menu-list">
             <li *ngFor="let week of weeks; let i = index">
                 <div class="card">
@@ -25,11 +22,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- <footer class="card-footer">
-                        <a href="#" class="card-footer-item">Save</a>
-                        <a href="#" class="card-footer-item">Edit</a>
-                        <a href="#" class="card-footer-item">Delete</a>
-                    </footer> -->
                 </div>
             </li>
         </ul>

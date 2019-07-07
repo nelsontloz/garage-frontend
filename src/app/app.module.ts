@@ -11,13 +11,17 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { BookingComponent } from './booking/booking.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
+import { NotificationComponent } from './notification/notification.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CreateAccountComponent,
-    BookingComponent
+    BookingComponent,
+    NotificationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

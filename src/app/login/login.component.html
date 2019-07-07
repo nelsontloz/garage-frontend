@@ -1,52 +1,49 @@
-<div class="login">
-    <div class="box">
-        <div style="text-align:center">
-            <fa-icon [icon]="faCoffee"></fa-icon>
-        </div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="columns">
+<div class="login section">
 
-                <div class="column is-half">
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input class="input" type="email" placeholder="Email" formControlName="email" />
+    <div class="columns">
+
+        <div
+            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
+            <div class="box">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="columns">
+
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input class="input" type="email" placeholder="Email" formControlName="email" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control">
+                                    <input class="input" type="password" placeholder="Password"
+                                        formControlName="password" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="field buttons-wrapper">
+                        <div class="columns is-pulled-right">
+
+                            <div class="buttons column">
+
+                                <button class="button is-primary" type="submit" [disabled]="loginForm.invalid">
+                                    Login
+                                </button>
+
+                                <a class="button" [routerLink]="[ '/home']">Cancel</a>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="column is-half">
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control">
-                            <input class="input" type="password" placeholder="Password" formControlName="password" />
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="columns">
-
-                <div class="buttons column">
-
-                    <button class="button is-primary" type="submit">
-                        Login
-                    </button>
-
-                    <button class="button" formAction="reset">
-                        Cancel
-                    </button>
-
-                </div>
-            </div>
-        </form>
-
-        <div>
-            <div class="notification is-success">
-                <button class="delete"></button>
-                User created successfuly!
+                </form>
             </div>
         </div>
-
     </div>
 </div>

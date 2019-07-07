@@ -22,12 +22,14 @@ export class BookingComponent implements OnInit {
     }
 
     this.calendar = calendar().of(2019, 7);
-    this.weeks = this.calendar.calendar;
-    console.log(moment().month(), moment().year());
+    this.weeks = this.calendar.calendar.map((week: number[]) => {
+      return week.filter((day: number) => {
+        return day !== 0;
+      });
+    });
   }
 
   ngOnInit() {
-
   }
 
   setMonth(month: string) {

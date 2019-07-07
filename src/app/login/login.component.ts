@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../auth.service';
+import { NotificationService, NotificationType } from '../notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -11,23 +11,24 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  faCoffee = faCoffee;
-
   loginForm = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.email])],
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     if (this.loginForm.valid) {
       const formValues = this.loginForm.value;
-      this.authService.authenticate(formValues.email, formValues.password);
+      this.authService.authenticate(formValues.email, formValues.password).pipe(first()).subscribe((authenticated) => {
+        this.notificationService.pushNotification('authneticated!', NotificationType.INFO);
+      }, (error => {
+        this.notificationService.pushNotification('invalid credentials!', NotificationType.WARNING);
+      }));
     }
   }
 

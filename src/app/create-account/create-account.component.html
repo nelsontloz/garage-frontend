@@ -1,73 +1,65 @@
-<div class="create-account">
-    <div class="box">
-        <form onSubmit={this.onSubmit}>
+<div class="create-account section">
+    <div class="columns">
+        <div
+            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
 
-            <div class="field">
-                <label class="label">First Name</label>
-                <div class="control">
-                    <input class="input" type="text"
-                        placeholder="Password" />
-                </div>
-            </div>
+            <div class="box">
+                <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
 
-            <div class="field">
-                <label class="label">Last Name</label>
-                <div class="control">
-                    <input class="input" type="text"
-                        placeholder="Password" />
-                </div>
-            </div>
+                    <div class="field">
+                        <label class="label">First Name</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="" formControlName="firstName" />
+                        </div>
+                    </div>
 
-            <div class="field">
-                <label class="label">Phone Number</label>
-                <div class="control">
-                    <input class="input" type="text"
-                        placeholder="Phone Number" />
-                </div>
-            </div>
+                    <div class="field">
+                        <label class="label">Last Name</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="" formControlName="lastName" />
+                        </div>
+                    </div>
 
-            <div class="field">
-                <label class="label">Email</label>
-                <div class="control">
-                    <input class="input" type="email"
-                        placeholder="Account name" />
-                </div>
-            </div>
+                    <div class="field">
+                        <label class="label">Phone Number</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="" formControlName="phone" />
+                        </div>
+                    </div>
 
-            <div class="field">
-                <label class="label">Password</label>
-                <div class="control">
-                    <input class="input" type="password"
-                        placeholder="Password" />
-                </div>
-            </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control">
+                            <input class="input" type="email" placeholder="" formControlName="email" />
+                        </div>
+                    </div>
 
-            <div class="field">
-                <label class="label">Confirm password</label>
-                <div class="control">
-                    <input class="input"
-                        type="password" placeholder="Password" />
-                </div>
-            </div>
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control">
+                            <input class="input" type="password" placeholder="" formControlName="password" />
+                        </div>
+                    </div>
 
-            <div class="buttons">
+                    <div class="field">
+                        <label class="label">Confirm password</label>
+                        <div class="control">
+                            <input class="input" type="password" placeholder="" formControlName="passwordConfirm" />
+                        </div>
+                    </div>
+                    <div class="field buttons-wrapper">
+                        <div class="buttons is-pulled-right">
+                            <button class="button is-primary" type="submit" [disabled]="accountForm.invalid">
+                                Create user
+                            </button>
 
-                <button class="button is-primary" formAction="submit">
-                    Create user
-                </button>
-
-                <button class="button" formAction="reset">
-                    Cancel
-                </button>
-            </div>
-        </form>
-
-        <div>
-            <div class="notification is-success">
-                <button class="delete"></button>
-                User created successfuly!
+                            <button class="button" formAction="reset">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-
     </div>
 </div>

@@ -8,34 +8,35 @@ import calendar from 'calendar-js';
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit {
-  months;
-  calendar;
-  weeks;
+  months: CalendarType[] = [];
+  currentDate = moment();
+
+  selectedMonth = {};
 
   constructor() {
 
-    const currentMonth = moment().month();
-    this.months = Object.assign([], calendar().months());
-    for (let i = 0; i <= currentMonth; i++) {
-      const preMonth = this.months.shift() || '';
-      this.months.push(preMonth);
-    }
+    const initialDate = moment();
+    for (let i = 0; i < 10; i++) {
+      const month = (calendar() as any).detailed(initialDate.year(), initialDate.month());
 
-    this.calendar = calendar().of(2019, 7);
-    this.weeks = this.calendar.calendar.map((week: number[]) => {
-      return week.filter((day: number) => {
-        return day !== 0;
-      });
-    });
+      this.months.push(month);
+      initialDate.add(1, 'months');
+    }
+    this.setMonth(this.months[0]);
   }
 
   ngOnInit() {
   }
 
-  setMonth(month: string) {
-    const calendarMonths = calendar().months();
-    const selectedMonthIndex = calendarMonths.indexOf(month);
-    this.calendar = calendar().of(2019, selectedMonthIndex);
-    this.weeks = this.calendar.calendar;
+  setMonth(month: CalendarType) {
+    this.selectedMonth = month;
+  }
+
+  isWeekend(index: number) {
+    return index === 5 || index === 6;
+  }
+
+  generateQueryParam(date: Date) {
+    return moment(date).format('LL');
   }
 }

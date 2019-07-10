@@ -13,6 +13,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { NotificationComponent } from './notification/notification.component';
 import { HomeComponent } from './home/home.component';
+import { BookDayComponent } from './book-day/book-day.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component';
     CreateAccountComponent,
     BookingComponent,
     NotificationComponent,
-    HomeComponent
+    HomeComponent,
+    BookDayComponent
   ],
   imports: [
     BrowserModule,

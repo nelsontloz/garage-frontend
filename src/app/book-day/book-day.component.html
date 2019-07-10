@@ -1,0 +1,30 @@
+<div class="section">
+
+    <div class="columns">
+        <div
+            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        {{dateName}}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content" *ngFor="let slot of slots">
+                        <span>
+                            {{ slot.date.format('H:mm') }}
+                        </span>
+                        <span>
+                            <button class="button is-small is-primary is-pulled-right">Book</button>
+                            <span class="tag is-white is-pulled-right">
+                                <strong class="has-text-success">
+                                    5 Slots
+                                </strong>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,22 +4,22 @@
     <div class="navbar-brand">
       <a class="navbar-item" routerLink="/home">
         <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
-        Ger's Garage
+          Ger's Garage
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
+        data-target="navbarBasicExample" (click)="toggleNavbarMenu($event)">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div #navbarMenu id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': navbarMenuActive}">
       <div class="navbar-start">
-          <a class="navbar-item" routerLink="/booking">
-            Booking
-          </a>
+        <a class="navbar-item" routerLink="/booking">
+          Booking
+        </a>
 
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">

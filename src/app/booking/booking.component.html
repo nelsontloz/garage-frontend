@@ -1,29 +1,46 @@
 <div class="booking section">
     <div class="tabs is-boxed">
         <ul>
-            <li *ngFor="let month of months; let monthIndex = index" (click)="setMonth(month)">
-                <a>{{ month }}</a>
+            <li *ngFor="let month of months" (click)="setMonth(month, index)"
+                [ngClass]="{'is-active': month === selectedMonth}">
+                <a>
+                    {{ month.monthAbbr }} <br />
+                    <small>{{ month.year }}</small>
+                </a>
             </li>
         </ul>
     </div>
-    <aside class="menu">
-        <ul class="menu-list">
-            <li *ngFor="let week of weeks; let i = index">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Week {{ i + 1 }}
-                        </p>
-                    </header>
-                    <div class="card-content">
-                        <div *ngFor="let day of week; let dayIndex = index" class="content">
-                            <p *ngIf="day !== 0">
-                                {{ calendar.weekdays[dayIndex] + ' ' + day + 'th' }}
-                            </p>
-                        </div>
+
+    <div class="columns is-multiline">
+
+        <div class="column is-half-tablet is-one-third-desktop"
+            *ngFor="let week of selectedMonth.calendar; let i = index">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Week {{ i + 1 }}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content" *ngFor="let dayObj of week; let dayIndex = index;" class="content"
+                        [ngClass]="{'has-text-grey-light': dayObj.day === 0, 'is-hidden': dayIndex === 0 || dayIndex === 6 }">
+                        <span>
+                            {{ selectedMonth.weekdays[dayIndex] + ' ' + (dayObj.day !== 0 ? dayObj.day + 'th' : '') }}
+                        </span>
+                        <span *ngIf="day !== 0">
+                            <a class="button is-small is-primary is-pulled-right" routerLink="/book-day"
+                                [queryParams]="{date: generateQueryParam(dayObj.date)}">
+                                Book
+                            </a>
+                            <span class="tag is-white is-pulled-right">
+                                <strong class="has-text-success">
+                                    5 Slots
+                                </strong>
+                            </span>
+                        </span>
                     </div>
                 </div>
-            </li>
-        </ul>
-    </aside>
+            </div>
+        </div>
+    </div>
 </div>

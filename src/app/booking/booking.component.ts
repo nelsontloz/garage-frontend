@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import calendar from 'calendar-js';
+import { BookingService } from '../booking.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-booking',
@@ -12,8 +14,9 @@ export class BookingComponent implements OnInit {
   currentDate = moment();
 
   selectedMonth = {};
+  slotsByDate = null;
 
-  constructor() {
+  constructor(private bookingService: BookingService) {
 
     const initialDate = moment();
     for (let i = 0; i < 10; i++) {
@@ -29,7 +32,29 @@ export class BookingComponent implements OnInit {
   }
 
   setMonth(month: CalendarType) {
+    if (this.selectedMonth === month) {
+      return;
+    }
     this.selectedMonth = month;
+    const startDate = moment(month.month + '-' + month.year, 'MMMM-YYYY');
+    const endDate = startDate.clone().add(1, 'month');
+
+    this.slotsByDate = null;
+    this.bookingService.getSlotsCountByDateRange(startDate, endDate).pipe(
+      first()
+    ).subscribe((response: any) => {
+      this.slotsByDate = {};
+      response.forEach((slotCount: any) => {
+        const dateMoment = moment(slotCount.date);
+        this.slotsByDate[dateMoment.format('DD-MM-YYYY')] = slotCount.slots;
+      });
+    });
+  }
+
+  getDaySlots(date: Date) {
+    const dateMoment = moment(date);
+    const slots = this.slotsByDate[dateMoment.format('DD-MM-YYYY')];
+    return slots ? slots : 0;
   }
 
   isWeekend(index: number) {
@@ -37,6 +62,6 @@ export class BookingComponent implements OnInit {
   }
 
   generateQueryParam(date: Date) {
-    return moment(date).format('LL');
+    return moment(date).format('DD-MM-YYYY');
   }
 }

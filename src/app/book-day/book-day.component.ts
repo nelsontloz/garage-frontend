@@ -17,21 +17,21 @@ export class BookDayComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((queryParams: Params) => {
-      const date = moment(queryParams.date, 'LL');
+      const date = moment(queryParams.date, 'DD-MM-YYYY');
       this.dateName = date.format('LL');
+      this.slots = [];
       this.bookingService.getSlotsByDate(date).subscribe((response: any[]) => {
         this.slots = response.map(slot => {
           slot.date = moment(slot.date);
           return slot;
+        }).sort((a, b) => {
+          return a.date - b.date;
         });
       });
-
-      // let firstSlot = date.clone().add(9, 'hours');
-      // for (let i = 0; i < 8; i++) {
-      //   this.slots.push(firstSlot);
-      //   firstSlot = firstSlot.clone().add(1, 'hour');
-      // }
     });
   }
 
+  generateQueryParam(date: moment.Moment) {
+    return date.format('DD-MM-YYYY HH:mm');
+  }
 }

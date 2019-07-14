@@ -5,6 +5,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { BookDayComponent } from './book-day/book-day.component';
+import { BookSlotComponent } from './book-slot/book-slot.component';
 
 const routes: Routes = [
   {
@@ -15,12 +16,16 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'booking', component: BookingComponent },
   { path: 'book-day', component: BookDayComponent },
+  { path: 'book-slot', component: BookSlotComponent },
   { path: 'create-account', component: CreateAccountComponent },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(mod => mod.LoginModule)
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

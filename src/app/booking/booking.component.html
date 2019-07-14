@@ -1,8 +1,8 @@
 <div class="booking section">
     <div class="tabs is-boxed">
         <ul>
-            <li *ngFor="let month of months" (click)="setMonth(month, index)"
-                [ngClass]="{'is-active': month === selectedMonth}">
+            <li *ngFor="let month of months; let i = index" (click)="setMonth(month, i)"
+                [ngClass]="{ 'is-active': month === selectedMonth }">
                 <a>
                     {{ month.monthAbbr }} <br />
                     <small>{{ month.year }}</small>
@@ -11,7 +11,9 @@
         </ul>
     </div>
 
-    <div class="columns is-multiline">
+    <app-loading *ngIf="!slotsByDate" class="column is-full has-text-centered"></app-loading>
+
+    <div class="columns is-multiline" *ngIf="slotsByDate">
 
         <div class="column is-half-tablet is-one-third-desktop"
             *ngFor="let week of selectedMonth.calendar; let i = index">
@@ -23,18 +25,21 @@
                 </header>
                 <div class="card-content">
                     <div class="content" *ngFor="let dayObj of week; let dayIndex = index;" class="content"
-                        [ngClass]="{'has-text-grey-light': dayObj.day === 0, 'is-hidden': dayIndex === 0 || dayIndex === 6 }">
+                        [ngClass]="{'has-text-grey-light': !dayObj.isInPrimaryMonth, 'is-hidden': dayIndex === 0 || dayIndex === 6 }">
                         <span>
-                            {{ selectedMonth.weekdays[dayIndex] + ' ' + (dayObj.day !== 0 ? dayObj.day + 'th' : '') }}
+                            {{ selectedMonth.weekdays[dayIndex] }}
                         </span>
-                        <span *ngIf="day !== 0">
+                        <small>
+                            {{ (dayObj.day !== 0 ? dayObj.day + 'th' : '') }}
+                        </small>
+                        <span *ngIf="dayObj.isInPrimaryMonth">
                             <a class="button is-small is-primary is-pulled-right" routerLink="/book-day"
                                 [queryParams]="{date: generateQueryParam(dayObj.date)}">
                                 Book
                             </a>
                             <span class="tag is-white is-pulled-right">
                                 <strong class="has-text-success">
-                                    5 Slots
+                                    {{ getDaySlots(dayObj.date) }} Slots
                                 </strong>
                             </span>
                         </span>

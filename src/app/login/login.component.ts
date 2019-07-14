@@ -3,6 +3,8 @@ import { first } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { NotificationService, NotificationType } from '../notification/notification.service';
+import { Account, AccountType } from '../interfaces/session.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
@@ -24,8 +27,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const formValues = this.loginForm.value;
+
+      this.authService.getAccount().pipe(first()).subscribe((account: Account) => {
+        if (account.type === AccountType.CUSTOMER) {
+          this.router.navigate(['/booking']);
+        }
+      });
       this.authService.authenticate(formValues.email, formValues.password).pipe(first()).subscribe((authenticated) => {
-        this.notificationService.pushNotification('authneticated!', NotificationType.INFO);
+        this.notificationService.pushNotification('authenticated!', NotificationType.INFO);
       }, (error => {
         this.notificationService.pushNotification('invalid credentials!', NotificationType.WARNING);
       }));

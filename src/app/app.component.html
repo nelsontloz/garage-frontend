@@ -2,9 +2,10 @@
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
+
       <a class="navbar-item" routerLink="/home">
         <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
-          Ger's Garage
+        Ger's Garage
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -38,7 +39,7 @@
         </div>
       </div>
 
-      <div class="navbar-end">
+      <div class="navbar-end" *ngIf="!account">
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary" routerLink="/create-account">
@@ -50,70 +51,23 @@
           </div>
         </div>
       </div>
+
+      <div class="navbar-end" *ngIf="account">
+        <div class="navbar-item">
+          <div class="account-name">
+            <fa-icon [icon]="faUser"></fa-icon>
+            {{ account.firstName + ' ' + account.lastName[0] + '.' }}
+          </div>
+          <div class="buttons">
+            <button class="button is-light" (click)="logout()">
+              Log out
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </nav>
-  <!-- 
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" routerLink="/home">
-        <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
-        Ger's Garage
-      </a>
-
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-
-      <div class="navbar-start">
-
-        <a class="navbar-item" routerLink="/booking">
-          Booking
-        </a>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-a">
-            More
-          </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item">
-              About
-            </a>
-            <a class="navbar-item">
-              Jobs
-            </a>
-            <a class="navbar-item">
-              Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary" routerLink="/create-account">
-              <strong>Sign up</strong>
-            </a>
-            <a class="button is-light" routerLink="/login">
-              Log in
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </nav> -->
 
   <router-outlet></router-outlet>
   <app-notification></app-notification>

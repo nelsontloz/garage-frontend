@@ -1,0 +1,72 @@
+<div class="schedule section">
+  <div class="tabs is-boxed">
+    <ul>
+      <li
+        *ngFor="let month of months; let i = index"
+        (click)="setMonth(month, i)"
+        [ngClass]="{ 'is-active': month === selectedMonth }"
+      >
+        <a>
+          {{ month.monthAbbr }} <br />
+          <small>{{ month.year }}</small>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <app-loading
+    *ngIf="!slotsByDate"
+    class="column is-full has-text-centered"
+  ></app-loading>
+
+  <div class="columns is-multiline" *ngIf="slotsByDate">
+    <div
+      class="column is-half-tablet is-one-third-desktop"
+      *ngFor="let week of selectedMonth.calendar; let i = index"
+    >
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Week {{ i + 1 }}</p>
+        </header>
+        <div class="card-content">
+          <div
+            class="content"
+            *ngFor="let dayObj of week; let dayIndex = index"
+            class="content"
+            [ngClass]="{
+              'has-text-grey-light': !dayObj.isInPrimaryMonth,
+              'is-hidden': dayIndex === 0 || dayIndex === 6
+            }"
+          >
+            <span>
+              {{ selectedMonth.weekdays[dayIndex] }}
+            </span>
+            <small>
+              {{ dayObj.day !== 0 ? dayObj.day + 'th' : '' }}
+            </small>
+            <span *ngIf="dayObj.isInPrimaryMonth">
+              <button
+                class="button is-small is-info is-pulled-right"
+                routerLink="/admin/schedule-day"
+                [queryParams]="{ date: generateQueryParam(dayObj.date) }"
+                [attr.disabled]="getDaySlots(dayObj.date) > 0 ? null : ''"
+              >
+                View
+              </button>
+              <span class="tag is-white is-pulled-right">
+                <strong
+                  [ngClass]="{
+                    'has-text-info': getDaySlots(dayObj.date) > 0,
+                    'has-text-grey-light': getDaySlots(dayObj.date) === 0
+                  }"
+                >
+                  {{ getDaySlots(dayObj.date) }} Slots
+                </strong>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

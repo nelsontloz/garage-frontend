@@ -25,6 +25,30 @@ export class BookingService {
     return this.http.get(`${environment.API_URL}/booking/slots`, { params });
   }
 
+  getBookedSlotsCountByDateRange(
+    startDate: moment.Moment,
+    endDate: moment.Moment
+  ) {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate.format('DD-MM-YYYY'));
+    params = params.append('endDate', endDate.format('DD-MM-YYYY'));
+    return this.http.get(`${environment.API_URL}/booking/booked-slots`, {
+      params,
+    });
+  }
+
+  getBookedSlotsDetailsDateRange(
+    startDate: moment.Moment,
+    endDate: moment.Moment
+  ) {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate.format('DD-MM-YYYY'));
+    params = params.append('endDate', endDate.format('DD-MM-YYYY'));
+    return this.http.get(`${environment.API_URL}/booking/booked-slots-details`, {
+      params,
+    });
+  }
+
   getSlotByDate(date: moment.Moment) {
     let params = new HttpParams();
     params = params.append('date', date.toISOString());

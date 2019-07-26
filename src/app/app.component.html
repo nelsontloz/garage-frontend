@@ -78,7 +78,7 @@
           class="navbar-item"
           *ngIf="this.account && this.account.type === 'customer'"
         >
-          <div class="account-name">
+          <div class="account-name has-text-info">
             <fa-icon [icon]="faUser"></fa-icon>
             {{ account.firstName + ' ' + account.lastName[0] + '.' }}
           </div>

@@ -7,26 +7,36 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   { path: 'home', component: HomeComponent },
   { path: 'my-bookings', component: MyBookingsComponent },
   {
     path: 'booking',
-    loadChildren: () => import('./booking/booking.module').then(mod => mod.BookingModule)
+    loadChildren: () =>
+      import('./booking/booking.module').then(mod => mod.BookingModule),
   },
   {
     path: 'create-account',
-    loadChildren: () => import('./create-account/create-account.module').then(mod => mod.CreateAccountModule)
+    loadChildren: () =>
+      import('./create-account/create-account.module').then(
+        mod => mod.CreateAccountModule
+      ),
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(mod => mod.LoginModule)
+    loadChildren: () =>
+      import('./login/login.module').then(mod => mod.LoginModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then(mod => mod.AdminModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

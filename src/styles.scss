@@ -5,3 +5,7 @@
 .buttons-wrapper {
     overflow: hidden;
 }
+
+a[disabled] {
+    pointer-events: none;
+}

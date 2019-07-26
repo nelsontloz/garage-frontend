@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { faWarehouse, faUser } from '@fortawesome/free-solid-svg-icons';
 import { filter, first } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -17,6 +17,7 @@ export class AppComponent {
   faUser = faUser;
   navbarMenuActive = false;
   account: Account;
+  isLoading = false;
 
   constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {
     router.events.pipe(

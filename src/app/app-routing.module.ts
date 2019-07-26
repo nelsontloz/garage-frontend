@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BookingComponent } from './booking/booking.component';
-import { CreateAccountComponent } from './create-account/create-account.component';
-import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { BookDayComponent } from './book-day/book-day.component';
-import { BookSlotComponent } from './book-slot/book-slot.component';
+import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 
 const routes: Routes = [
   {
@@ -14,10 +10,15 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'home', component: HomeComponent },
-  { path: 'booking', component: BookingComponent },
-  { path: 'book-day', component: BookDayComponent },
-  { path: 'book-slot', component: BookSlotComponent },
-  { path: 'create-account', component: CreateAccountComponent },
+  { path: 'my-bookings', component: MyBookingsComponent },
+  {
+    path: 'booking',
+    loadChildren: () => import('./booking/booking.module').then(mod => mod.BookingModule)
+  },
+  {
+    path: 'create-account',
+    loadChildren: () => import('./create-account/create-account.module').then(mod => mod.CreateAccountModule)
+  },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(mod => mod.LoginModule)

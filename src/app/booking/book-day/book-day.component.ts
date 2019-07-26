@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
-import { BookingService } from '../booking.service';
+import { BookingService } from '../../booking.service';
 
 @Component({
   selector: 'app-book-day',

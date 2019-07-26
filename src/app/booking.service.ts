@@ -4,11 +4,14 @@ import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookingService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+  getSlotsByCustomer() {
+    return this.http.get(`${environment.API_URL}/booking/my-slots`);
+  }
 
   getSlotsByDate(date: moment.Moment) {
     let params = new HttpParams();
@@ -27,5 +30,15 @@ export class BookingService {
     let params = new HttpParams();
     params = params.append('date', date.toISOString());
     return this.http.get(`${environment.API_URL}/booking/slot`, { params });
+  }
+
+  bookSlot(slotId: string, bookingDetails: any) {
+    let params = new HttpParams();
+    params = params.append('slotId', slotId);
+    return this.http.put(
+      `${environment.API_URL}/booking/book-slot`,
+      bookingDetails,
+      { params }
+    );
   }
 }

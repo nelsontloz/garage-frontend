@@ -1,0 +1,27 @@
+<div class="section">
+  <div class="columns" *ngIf="slots.length > 0">
+    <div
+      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
+    >
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            My Bookings
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content" *ngFor="let slot of slots">
+            <span>
+              {{ slot.date.format('LLLL') }}
+            </span>
+            <span>
+              <button class="button is-small is-warning is-pulled-right">
+                Cancel
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

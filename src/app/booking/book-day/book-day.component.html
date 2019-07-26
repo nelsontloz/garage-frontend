@@ -13,17 +13,14 @@
                 </header>
                 <div class="card-content">
                     <div class="content" *ngFor="let slot of slots">
-                        <span>
+                        <span [ngClass]="{'has-text-grey-light': slot.status !== 'free'}">
                             {{ slot.date.format('H:mm') }}
                         </span>
                         <span>
-                            <a class="button is-small is-primary is-pulled-right" routerLink="/book-slot"
-                                [queryParams]="{ date: generateQueryParam(slot.date) }">Book Slot</a>
-                            <span class="tag is-white is-pulled-right">
-                                <strong class="has-text-success">
-                                    Available
-                                </strong>
-                            </span>
+                            <button class="button is-small is-primary is-pulled-right" routerLink="/booking/slot"
+                                [queryParams]="{ date: generateQueryParam(slot.date) }" [attr.disabled]="slot.status === 'free' ? null : ''">
+                                Book Slot
+                            </button>
                         </span>
                     </div>
                 </div>

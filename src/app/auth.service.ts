@@ -5,23 +5,23 @@ import { ISession, Account } from './interfaces/session.interface';
 import { CookieService } from 'ngx-cookie-service';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private accountSub: Subject<Account>;
+  private accountChangeSub = new BehaviorSubject<Account>(null);
 
   constructor(private http: HttpClient, private cookiesService: CookieService) {
-    this.accountSub = new Subject<Account>();
+    this.accountChangeSub.next(null);
     const accessToken = this.cookiesService.get('accessToken');
     if (!accessToken) {
-      this.accountSub.next(null);
+      this.accountChangeSub.next(null);
       return;
     }
     http.get(`${environment.API_URL}/auth`).pipe(first()).subscribe((sessionResponse: ISession) => {
-      this.accountSub.next(sessionResponse.account);
+      this.accountChangeSub.next(sessionResponse.account);
     });
   }
 
@@ -32,22 +32,24 @@ export class AuthService {
     }).pipe(
       map((sessionResponse: ISession) => {
         this.cookiesService.set('accessToken', sessionResponse.accessToken, moment(sessionResponse.expiration).toDate());
-        this.accountSub.next(sessionResponse.account);
+        this.accountChangeSub.next(sessionResponse.account);
         return true;
       })
     );
   }
 
   revoke() {
-    const revoke = this.http.put(`${environment.API_URL}/auth/revoke`, {}).pipe(first());
-    revoke.subscribe((sessionResponse: ISession) => {
-      this.accountSub.next(null);
-      this.cookiesService.delete('accessToken');
-    });
-    return revoke;
+    return this.http.put(`${environment.API_URL}/auth/revoke`, {}).pipe(map(
+      (sessionResponse: ISession) => {
+        this.accountChangeSub.next(null);
+        this.cookiesService.delete('accessToken');
+        return sessionResponse;
+      }
+    ));
   }
 
   getAccount() {
-    return this.accountSub;
+    return this.accountChangeSub;
   }
+
 }

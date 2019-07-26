@@ -33,12 +33,14 @@
                             {{ (dayObj.day !== 0 ? dayObj.day + 'th' : '') }}
                         </small>
                         <span *ngIf="dayObj.isInPrimaryMonth">
-                            <a class="button is-small is-primary is-pulled-right" routerLink="/book-day"
-                                [queryParams]="{date: generateQueryParam(dayObj.date)}">
+                            <button class="button is-small is-primary is-pulled-right" routerLink="/booking/day"
+                                [queryParams]="{date: generateQueryParam(dayObj.date)}"
+                                [attr.disabled]="getDaySlots(dayObj.date) > 0 ? null: ''">
                                 Book
-                            </a>
+                            </button>
                             <span class="tag is-white is-pulled-right">
-                                <strong class="has-text-success">
+                                <strong
+                                    [ngClass]="{'has-text-success': getDaySlots(dayObj.date) > 0, 'has-text-danger': getDaySlots(dayObj.date) === 0}">
                                     {{ getDaySlots(dayObj.date) }} Slots
                                 </strong>
                             </span>

@@ -1,42 +1,38 @@
 <div class="container">
-
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-
       <a class="navbar-item" routerLink="/home">
         <fa-icon class="garage-icon" [icon]="faWarehouse" size="lg"></fa-icon>
         Ger's Garage
       </a>
 
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-        data-target="navbarBasicExample" (click)="toggleNavbarMenu($event)">
+      <a
+        role="button"
+        class="navbar-burger burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+        (click)="toggleNavbarMenu($event)"
+      >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div #navbarMenu id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': navbarMenuActive}">
+    <div
+      #navbarMenu
+      id="navbarBasicExample"
+      class="navbar-menu"
+      [ngClass]="{ 'is-active': navbarMenuActive }"
+    >
       <div class="navbar-start">
         <a class="navbar-item" routerLink="/booking">
           Booking
         </a>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            More
-          </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item" routerLink="/booking">
-              Booking
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div>
+        <a class="navbar-item" routerLink="/my-bookings">
+          My Bookings
+        </a>
       </div>
 
       <div class="navbar-end" *ngIf="!account">
@@ -45,7 +41,7 @@
             <a class="button is-primary" routerLink="/create-account">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light" routerLink="/login">
+            <a class="button" routerLink="/login">
               Log in
             </a>
           </div>
@@ -59,13 +55,12 @@
             {{ account.firstName + ' ' + account.lastName[0] + '.' }}
           </div>
           <div class="buttons">
-            <button class="button is-light" (click)="logout()">
+            <button class="button" (click)="logout()">
               Log out
             </button>
           </div>
         </div>
       </div>
-
     </div>
   </nav>
 

@@ -26,11 +26,36 @@
       class="navbar-menu"
       [ngClass]="{ 'is-active': navbarMenuActive }"
     >
-      <div class="navbar-start">
+      <div
+        class="navbar-start"
+        *ngIf="
+          !this.account || (this.account && this.account.type === 'customer')
+        "
+      >
         <a class="navbar-item" routerLink="/booking">
           Booking
         </a>
-        <a class="navbar-item" routerLink="/my-bookings">
+        <a
+          class="navbar-item"
+          routerLink="/my-bookings"
+          *ngIf="this.account && this.account.type === 'customer'"
+        >
+          My Bookings
+        </a>
+      </div>
+
+      <div
+        class="navbar-start"
+        *ngIf="this.account && this.account.type === 'admin'"
+      >
+        <a class="navbar-item" routerLink="/booking">
+          Booking Schedule
+        </a>
+        <a
+          class="navbar-item"
+          routerLink="/my-bookings"
+          *ngIf="this.account && this.account.type === 'customer'"
+        >
           My Bookings
         </a>
       </div>
@@ -49,9 +74,27 @@
       </div>
 
       <div class="navbar-end" *ngIf="account">
-        <div class="navbar-item">
+        <div
+          class="navbar-item"
+          *ngIf="this.account && this.account.type === 'customer'"
+        >
           <div class="account-name">
             <fa-icon [icon]="faUser"></fa-icon>
+            {{ account.firstName + ' ' + account.lastName[0] + '.' }}
+          </div>
+          <div class="buttons">
+            <button class="button" (click)="logout()">
+              Log out
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="navbar-item"
+          *ngIf="this.account && this.account.type === 'admin'"
+        >
+          <div class="account-name has-text-info">
+            <fa-icon [icon]="faUserCog"></fa-icon>
             {{ account.firstName + ' ' + account.lastName[0] + '.' }}
           </div>
           <div class="buttons">

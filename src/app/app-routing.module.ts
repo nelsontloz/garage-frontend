@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { AdminGuardService } from './admin-guard.service';
 
 const routes: Routes = [
   {
@@ -32,11 +33,13 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then(mod => mod.AdminModule),
+    canActivate: [AdminGuardService],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
+  providers: [AdminGuardService],
 })
 export class AppRoutingModule {}

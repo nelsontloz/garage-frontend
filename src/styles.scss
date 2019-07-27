@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 // @import '../node_modules/bulmaswatch/materia/bulmaswatch.scss';
-@import '../node_modules/bulma/bulma.sass';
+@import "../node_modules/bulma/bulma.sass";
 
 .buttons-wrapper {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 a[disabled] {
-    pointer-events: none;
+  pointer-events: none;
+}
+
+@media print {
+  .is-hidden-print {
+    display: none !important;
+  }
 }

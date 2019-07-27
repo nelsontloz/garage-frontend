@@ -1,1 +1,106 @@
-<p>schedule-day works!</p>
+<div class="section">
+  <div class="columns">
+    <div class="column">
+      <span class="title is-4">
+        {{ date.format('LL') }}
+      </span>
+      <button
+        class="button is-pulled-right is-hidden-print"
+        (click)="printSchedule()"
+      >
+        <span class="icon">
+          <fa-icon [icon]="faPrint"></fa-icon>
+        </span>
+        <span>Print</span>
+      </button>
+    </div>
+  </div>
+  <div id="schedule-list" class="columns is-multiline">
+    <div class="column is-half-tablet" *ngFor="let slot of slots">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            {{ slot.date.format('HH:mm') }}
+          </p>
+          <span class="card-header-icon">
+            <span class="card-header-select-label">
+              <strong>Status: </strong>
+            </span>
+            <div class="select">
+              <select>
+                <option value="booked" [selected]="slot.status === 'booked'">Booked</option>
+                <option value="in service" [selected]="slot.status === 'in service'">In service</option>
+                <option value="fixed" [selected]="slot.status === 'fixed'">Fixed</option>
+                <option value="collected" [selected]="slot.status === 'collected'">Collected</option>
+                <option value="unrepairable" [selected]="slot.status === 'unrepairable'">Unrepairable</option>
+              </select>
+            </div>
+          </span>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <h4 class="has-text-centered">
+              {{ slot.serviceType }}
+            </h4>
+            <div class="columns is-multiline">
+              <div class="column is-half-tablet">
+                <strong>Name: </strong>
+                <br />
+                <span>{{
+                  slot.customer.firstName +
+                    ' ' +
+                    slot.customer.lastName[0] +
+                    '.'
+                }}</span>
+                <br />
+                <strong>Phone: </strong>
+                <br />
+                <a href="tel:{{ slot.customer.phone }}">{{
+                  slot.customer.phone
+                }}</a>
+                <br />
+                <!-- <strong>Status: </strong>
+                <br />
+                <span>{{ slot.status }}</span> -->
+              </div>
+              <div class="column is-half-tablet">
+                <strong>License: </strong>
+                <br />
+                <span> {{ slot.vehicle.licenseDetails }}</span>
+                <br />
+                <strong>Engine type: </strong>
+                <br />
+                <span> {{ slot.vehicle.engineType }}</span>
+                <br />
+                <strong>Maker: </strong>
+                <br />
+                <span>{{ slot.vehicle.maker }}</span>
+              </div>
+              <div class="column is-full">
+                <strong>Email: </strong>
+                <br />
+                <a href="mailto:{{ slot.customer.email }}">{{
+                  slot.customer.email
+                }}</a>
+              </div>
+
+              <div class="column">
+                <div class="box">
+                  <article class="media">
+                    <div class="media-content">
+                      <div class="content">
+                        <strong>Customer comments:</strong>
+                        <br />
+                        {{ slot.customerComments }}
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

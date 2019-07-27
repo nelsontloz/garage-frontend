@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, first } from 'rxjs/operators';
+import { map, first, skipWhile } from 'rxjs/operators';
 import { ISession, Account } from './interfaces/session.interface';
 import { CookieService } from 'ngx-cookie-service';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
+import { isUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root',
@@ -20,12 +21,18 @@ export class AuthService {
       this.accountChangeSub.next(null);
       return;
     }
-    http
+    this.http
       .get(`${environment.API_URL}/auth`)
       .pipe(first())
-      .subscribe((sessionResponse: ISession) => {
-        this.accountChangeSub.next(sessionResponse.account);
-      });
+      .subscribe(
+        (sessionResponse: ISession) => {
+          this.accountChangeSub.next(sessionResponse.account);
+        },
+        error => {
+          this.cookiesService.delete('accessToken');
+          this.accountChangeSub.next(null);
+        }
+      );
   }
 
   signUp(values: any) {
@@ -38,6 +45,18 @@ export class AuthService {
         this.removeAccount();
         this.cookiesService.delete('accessToken');
         return sessionResponse;
+      })
+    );
+  }
+
+  checkAuth() {
+    const accessToken = this.cookiesService.get('accessToken');
+    if (!accessToken) {
+      return this.accountChangeSub;
+    }
+    return this.accountChangeSub.pipe(
+      skipWhile((account: Account) => {
+        return !account;
       })
     );
   }

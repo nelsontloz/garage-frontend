@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  API_URL: 'http://192.168.0.9:3000'
+  production: true,
+  API_URL: 'http://zerg91.dns04.com:3000'
 };

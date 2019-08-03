@@ -15,3 +15,9 @@ a[disabled] {
     display: none !important;
   }
 }
+
+
+.has-text-nowrap {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

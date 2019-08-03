@@ -1,0 +1,41 @@
+<div class="section">
+  <div class="columns is-multiline">
+    <div
+      class="column is-half-tablet is-one-third-desktop"
+      *ngFor="let account of accounts"
+    >
+      <div class="card customer-card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">
+                {{ account.firstName + ' ' + account.lastName }}
+              </p>
+              <p class="subtitle is-6">
+                <a href="mailto:{{ account.email }}">{{ account.email }}</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="content">
+            <p>
+              Phone: <a href="tel:{{ account.phone }}">{{ account.phone }}</a>
+            </p>
+          </div>
+        </div>
+
+        <footer class="card-footer">
+          <button
+            class="button is-danger"
+            (click)="deleteCustomer(account._id)"
+          >
+            <span class="icon">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </span>
+            <span>Delete</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>

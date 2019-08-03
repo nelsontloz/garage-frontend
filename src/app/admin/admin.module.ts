@@ -6,9 +6,10 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { SharedModule } from '../shared/shared.module';
 import { ScheduleDayComponent } from './schedule-day/schedule-day.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AccountsComponent } from './accounts/accounts.component';
 
 @NgModule({
-  declarations: [AdminComponent, ScheduleComponent, ScheduleDayComponent],
+  declarations: [AdminComponent, ScheduleComponent, ScheduleDayComponent, AccountsComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule, FontAwesomeModule],
 })
 export class AdminModule {}

@@ -1,0 +1,12 @@
+.customer-card {
+  height: 100%;
+  .card-footer {
+    padding: 10px;
+    justify-content: flex-end;
+  }
+  .media-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -9,7 +9,10 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { Account, AccountType } from './interfaces/session.interface';
-import { NotificationService, NotificationType } from './notification/notification.service';
+import {
+  NotificationService,
+  NotificationType,
+} from './notification/notification.service';
 
 @Injectable()
 export class AdminGuardService implements CanActivate {
@@ -25,11 +28,13 @@ export class AdminGuardService implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.authService.checkAuth().pipe(
       map((account: Account) => {
-        console.log(account);
         if (account && account.type === AccountType.ADMIN) {
           return true;
         }
-        this.notificationService.pushNotification('You are not authorized to view this page!', NotificationType.WARNING);
+        this.notificationService.pushNotification(
+          'You are not authorized to view this page!',
+          NotificationType.WARNING
+        );
         this.router.navigate(['/home']);
         return false;
       })

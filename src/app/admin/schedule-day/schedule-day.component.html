@@ -23,10 +23,17 @@
             {{ slot.date.format('HH:mm') }}
           </p>
           <span class="card-header-icon">
-            <span class="card-header-select-label">
+            <button
+              class="button is-primary is-hidden-print"
+              routerLink="/admin/edit-slot"
+              [queryParams]="{ slotId: slot._id }"
+            >
+              Edit
+            </button>
+            <!-- <span class="card-header-select-label">
               <strong>Status: </strong>
-            </span>
-            <div class="select">
+            </span> -->
+            <!-- <div class="select">
               <select>
                 <option value="booked" [selected]="slot.status === 'booked'"
                   >Booked</option
@@ -50,7 +57,7 @@
                   >Unrepairable</option
                 >
               </select>
-            </div>
+            </div> -->
           </span>
         </header>
         <div class="card-content">
@@ -75,6 +82,9 @@
                   slot.customer.phone
                 }}</a>
                 <br />
+                <strong>Status: </strong>
+                <br />
+                <span>{{ slot.status }}</span>
               </div>
               <div class="column is-half-tablet">
                 <strong>License: </strong>
@@ -92,7 +102,7 @@
               <div class="column is-full">
                 <strong>Email: </strong>
                 <br />
-                <a href="mailto:{{ slot.customer.email }}">{{
+                <a href="mailto:{{ slot.customer.email }}" target="_blank">{{
                   slot.customer.email
                 }}</a>
               </div>

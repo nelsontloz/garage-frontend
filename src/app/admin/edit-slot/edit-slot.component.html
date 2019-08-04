@@ -1,0 +1,149 @@
+<div class="section">
+  <div class="columns">
+    <div
+      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
+    >
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Customer Details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="columns is-multiline" *ngIf="slot">
+              <div class="column is-3">
+                <strong>First name:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.customer.firstName }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Last name:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.customer.lastName }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Phone:</strong>
+              </div>
+              <div class="column is-9">
+                <a href="tel:{{ slot.customer.phone }}">{{
+                  slot.customer.phone
+                }}</a>
+              </div>
+              <div class="column is-3">
+                <strong>Email:</strong>
+              </div>
+              <div class="column is-9">
+                <a href="mailto:{{ slot.customer.email }}" target="_blank">{{
+                  slot.customer.email
+                }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Vehicle details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="columns is-multiline" *ngIf="slot">
+              <div class="column is-3">
+                <strong>Licence Nº:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.vehicle.licenseDetails }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Engine type:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.vehicle.engineType }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Maker:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.vehicle.maker }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Booking Details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="columns is-multiline" *ngIf="slot">
+              <div class="column is-3">
+                <strong>Date:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.date | date: 'medium' }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Service type:</strong>
+              </div>
+              <div class="column is-9">
+                <span>{{ slot.serviceType }}</span>
+              </div>
+              <div class="column is-3">
+                <strong>Status:</strong>
+              </div>
+              <div class="column is-9">
+                <div class="select is-small">
+                  <select (change)="onChangeStatus($event.target.value)">
+                    <option value="booked" [selected]="slot.status === 'booked'"
+                      >Booked</option
+                    >
+                    <option
+                      value="in service"
+                      [selected]="slot.status === 'in service'"
+                      >In service</option
+                    >
+                    <option value="fixed" [selected]="slot.status === 'fixed'"
+                      >Fixed</option
+                    >
+                    <option
+                      value="collected"
+                      [selected]="slot.status === 'collected'"
+                      >Collected</option
+                    >
+                    <option
+                      value="unrepairable"
+                      [selected]="slot.status === 'unrepairable'"
+                      >Unrepairable</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="column is-12">
+                <div class="box">
+                  <article class="media">
+                    <div class="media-content">
+                      <div class="content">
+                        <strong>Customer comments:</strong>
+                        <br />
+                        {{ slot.customerComments }}
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

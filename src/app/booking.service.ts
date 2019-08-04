@@ -8,6 +8,21 @@ import { environment } from 'src/environments/environment';
 export class BookingService {
   constructor(private http: HttpClient) {}
 
+  getSlotById(id: string) {
+    let params = new HttpParams();
+    params = params.append('slotId', id);
+    return this.http.get(`${environment.API_URL}/booking/one-slot`, { params });
+  }
+
+  updateSlotStatus(id: string, status: string) {
+    let params = new HttpParams();
+    params = params.append('slotId', id);
+    params = params.append('status', status);
+    return this.http.put(`${environment.API_URL}/booking/one-slot-status`,{}, {
+      params,
+    });
+  }
+
   getSlotsByCustomer() {
     return this.http.get(`${environment.API_URL}/booking/my-slots`);
   }
@@ -44,9 +59,12 @@ export class BookingService {
     let params = new HttpParams();
     params = params.append('startDate', startDate.format('DD-MM-YYYY'));
     params = params.append('endDate', endDate.format('DD-MM-YYYY'));
-    return this.http.get(`${environment.API_URL}/booking/booked-slots-details`, {
-      params,
-    });
+    return this.http.get(
+      `${environment.API_URL}/booking/booked-slots-details`,
+      {
+        params,
+      }
+    );
   }
 
   getSlotByDate(date: moment.Moment) {

@@ -1,8 +1,6 @@
 <div class="section">
-  <div class="columns">
-    <div
-      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
-    >
+  <div class="columns is-centered">
+    <div class="column is-half-desktop is-four-fifths-tablet">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
@@ -101,7 +99,7 @@
                 <strong>Status:</strong>
               </div>
               <div class="column is-9">
-                <div class="select is-small">
+                <div class="select" [ngClass]="{ 'is-loading': isUpdating }">
                   <select (change)="onChangeStatus($event.target.value)">
                     <option value="booked" [selected]="slot.status === 'booked'"
                       >Booked</option
@@ -143,6 +141,95 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Additional expenses
+          </p>
+          <div class="card-header-icon" aria-label="more options">
+            <button class="button is-info" (click)="onAddParts()">
+              <span class="icon">
+                <fa-icon [icon]="faPlus"></fa-icon>
+              </span>
+              <span>Add</span>
+            </button>
+          </div>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            None
+          </div>
+        </div>
+      </div>
+
+      <div class="modal is-active" *ngIf="isAddingParts">
+        <div class="modal-background" (click)="isAddingParts = false"></div>
+        <div class="modal-content">
+          <div class="card">
+            <header class="card-header">
+              <div class="card-content find-input-wrapper">
+                <div class="field">
+                  <div class="control">
+                    <input class="input" type="text" placeholder="Find parts" (keyup)="onChangeFindPart($event.target.value)"/>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class="card-content parts-list">
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Part name</th>
+                    <th>Price</th>
+                    <th class="has-text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let part of extraParts; let i = index">
+                    <td>{{ part.name }}</td>
+                    <td>{{ part.price | currency: 'EUR' }}</td>
+                    <td class="actions-column">
+                      <div class="buttons action-buttons is-hidden-touch">
+                        <button
+                          class="button is-primary is-small"
+                          (click)="onAddPart(part, i)"
+                          [ngClass]="{
+                            'is-loading': isAddingPart === part._id
+                          }"
+                        >
+                          <span class="icon">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                          </span>
+                          <span>
+                            Add
+                          </span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <footer class="card-footer">
+              <div class="card-content">
+                <button class="button" (click)="isAddingParts = false">
+                  <span class="icon">
+                    <fa-icon [icon]="faTimes"></fa-icon>
+                  </span>
+                  <span>
+                    Close
+                  </span>
+                </button>
+              </div>
+            </footer>
+          </div>
+        </div>
+        <button
+          class="modal-close is-large"
+          aria-label="close"
+          (click)="isAddingParts = false"
+        ></button>
       </div>
     </div>
   </div>

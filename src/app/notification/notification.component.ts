@@ -24,7 +24,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.notificationType = data.notificationType;
         this.showNotification = true;
 
-        this.hideSubscription = interval(10000)
+        this.hideSubscription = interval(data.time ? data.time : 10000)
           .pipe(first())
           .subscribe(() => {
             this.showNotification = false;

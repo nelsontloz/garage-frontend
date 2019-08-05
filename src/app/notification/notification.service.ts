@@ -7,18 +7,22 @@ export enum NotificationType {
   INFO = 'is-info',
   SUCCESS = 'is-success',
   WARNING = 'is-warning',
-  DANGER = 'is-danger'
+  DANGER = 'is-danger',
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   $notification: Subject<any> = new Subject();
 
-  constructor() { }
+  constructor() {}
 
-  pushNotification(message: string, notificationType: NotificationType) {
-    this.$notification.next({ message, notificationType });
+  pushNotification(
+    message: string,
+    notificationType: NotificationType,
+    time?: number
+  ) {
+    this.$notification.next({ message, notificationType, time });
   }
 }

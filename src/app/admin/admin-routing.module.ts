@@ -5,6 +5,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleDayComponent } from './schedule-day/schedule-day.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { EditSlotComponent } from './edit-slot/edit-slot.component';
+import { ExtraPartsComponent } from './extra-parts/extra-parts.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'edit-slot',
     component: EditSlotComponent,
+  },
+  {
+    path: 'extra-parts',
+    component: ExtraPartsComponent,
   },
 ];
 

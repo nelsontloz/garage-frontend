@@ -1,8 +1,25 @@
-.column {
-    padding-top: 5px;
-    padding-bottom: 5px;
+.box {
+  padding: 10px;
 }
 
-.box {
-    padding: 10px;
+.card-header-icon {
+  padding: 0.25rem 0.75rem;
+}
+
+.find-input-wrapper {
+  width: 100%
+}
+
+.action-buttons {
+  justify-content: flex-end;
+}
+
+.modal {
+  .parts-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .card-footer {
+    justify-content: flex-end;
+  }
 }

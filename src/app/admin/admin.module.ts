@@ -8,6 +8,8 @@ import { ScheduleDayComponent } from './schedule-day/schedule-day.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccountsComponent } from './accounts/accounts.component';
 import { EditSlotComponent } from './edit-slot/edit-slot.component';
+import { ExtraPartsComponent } from './extra-parts/extra-parts.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,15 @@ import { EditSlotComponent } from './edit-slot/edit-slot.component';
     ScheduleDayComponent,
     AccountsComponent,
     EditSlotComponent,
+    ExtraPartsComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, SharedModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    SharedModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class AdminModule {}

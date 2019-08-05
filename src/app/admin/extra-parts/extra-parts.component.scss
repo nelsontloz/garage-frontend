@@ -1,0 +1,16 @@
+.card {
+    .card-header-icon {
+        padding: 0 10px;
+        .card-header-select-label {
+            margin-right: 5px;
+        }
+    }
+}
+.action-buttons {
+    justify-content: flex-end;
+}
+
+.actions-column {
+    padding-left: 0;
+    padding-right: 0;
+}

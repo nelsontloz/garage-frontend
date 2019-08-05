@@ -16,8 +16,13 @@ a[disabled] {
   }
 }
 
-
 .has-text-nowrap {
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.card-header {
+  .card-content {
+    width: 100%;
+  }
 }

@@ -30,34 +30,6 @@
             >
               Edit
             </button>
-            <!-- <span class="card-header-select-label">
-              <strong>Status: </strong>
-            </span> -->
-            <!-- <div class="select">
-              <select>
-                <option value="booked" [selected]="slot.status === 'booked'"
-                  >Booked</option
-                >
-                <option
-                  value="in service"
-                  [selected]="slot.status === 'in service'"
-                  >In service</option
-                >
-                <option value="fixed" [selected]="slot.status === 'fixed'"
-                  >Fixed</option
-                >
-                <option
-                  value="collected"
-                  [selected]="slot.status === 'collected'"
-                  >Collected</option
-                >
-                <option
-                  value="unrepairable"
-                  [selected]="slot.status === 'unrepairable'"
-                  >Unrepairable</option
-                >
-              </select>
-            </div> -->
           </span>
         </header>
         <div class="card-content">
@@ -84,7 +56,7 @@
                 <br />
                 <strong>Status: </strong>
                 <br />
-                <span>{{ slot.status }}</span>
+                <span>{{ slot.status | titlecase }}</span>
               </div>
               <div class="column is-half-tablet">
                 <strong>License: </strong>

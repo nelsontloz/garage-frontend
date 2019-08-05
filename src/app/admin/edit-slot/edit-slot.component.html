@@ -158,7 +158,52 @@
         </header>
         <div class="card-content">
           <div class="content">
-            None
+            <table class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Part name</th>
+                  <th>Price</th>
+                  <th>Count</th>
+                  <th class="has-text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let part of extraParts; let i = index"
+                  [hidden]="countParts(part._id) === 0"
+                >
+                  <td>{{ part.name }}</td>
+                  <td>{{ part.price | currency: 'EUR' }}</td>
+                  <td>{{ countParts(part._id) }}</td>
+                  <td class="actions-column">
+                    <div class="buttons action-buttons is-hidden-touch">
+                      <button
+                        class="button is-danger is-small"
+                        (click)="onRemovePart(part, i)"
+                        [ngClass]="{
+                          'is-loading': isRemovingPart[part._id]
+                        }"
+                      >
+                        <span class="icon">
+                          <fa-icon [icon]="faTrash"></fa-icon>
+                        </span>
+                        <span>
+                          Remove
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3" class="has-text-right">Total cost:</td>
+                  <td class="has-text-right">
+                    <strong>{{
+                      calculateTotalCost() | currency: 'EUR'
+                    }}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -171,7 +216,12 @@
               <div class="card-content find-input-wrapper">
                 <div class="field">
                   <div class="control">
-                    <input class="input" type="text" placeholder="Find parts" (keyup)="onChangeFindPart($event.target.value)"/>
+                    <input
+                      class="input"
+                      type="text"
+                      placeholder="Find parts"
+                      (keyup)="onChangeFindPart($event.target.value)"
+                    />
                   </div>
                 </div>
               </div>
@@ -182,6 +232,7 @@
                   <tr>
                     <th>Part name</th>
                     <th>Price</th>
+                    <th>Count</th>
                     <th class="has-text-right">Actions</th>
                   </tr>
                 </thead>
@@ -189,13 +240,28 @@
                   <tr *ngFor="let part of extraParts; let i = index">
                     <td>{{ part.name }}</td>
                     <td>{{ part.price | currency: 'EUR' }}</td>
+                    <td>{{ countParts(part._id) }}</td>
                     <td class="actions-column">
                       <div class="buttons action-buttons is-hidden-touch">
+                        <!-- <button
+                          class="button is-danger is-small"
+                          (click)="onRemovePart(part, i)"
+                          [ngClass]="{
+                            'is-loading': isRemovingPart[part._id]
+                          }"
+                        >
+                          <span class="icon">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                          </span>
+                          <span>
+                            Remove
+                          </span>
+                        </button> -->
                         <button
                           class="button is-primary is-small"
                           (click)="onAddPart(part, i)"
                           [ngClass]="{
-                            'is-loading': isAddingPart === part._id
+                            'is-loading': isAddingPart[part._id]
                           }"
                         >
                           <span class="icon">

@@ -7,8 +7,14 @@ import {
   NotificationService,
   NotificationType,
 } from 'src/app/notification/notification.service';
-import { faPlus, faSpinner, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faSpinner,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { ExtraPartsService } from '../extra-parts.service';
+import { isArray } from 'util';
 
 @Component({
   selector: 'app-edit-slot',
@@ -20,9 +26,11 @@ export class EditSlotComponent implements OnInit {
   faPlus = faPlus;
   faSpinner = faSpinner;
   faTimes = faTimes;
+  faTrash = faTrash;
   isUpdating = false;
-  isAddingParts = true;
-  isAddingPart = '';
+  isAddingParts = false;
+  isAddingPart = {};
+  isRemovingPart = {};
   extraParts = [];
   extraPartsAux = [];
   constructor(
@@ -33,6 +41,17 @@ export class EditSlotComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadSlot();
+    this.extraPartsService
+      .getParts()
+      .pipe(first())
+      .subscribe((response: any[]) => {
+        this.extraParts = response;
+        this.extraPartsAux = response;
+      });
+  }
+
+  private loadSlot() {
     this.activatedRoute.queryParams
       .pipe(
         flatMap(queryParams => {
@@ -43,14 +62,33 @@ export class EditSlotComponent implements OnInit {
       .subscribe((slot: Slot) => {
         this.slot = slot;
       });
+  }
 
-    this.extraPartsService
-      .getParts()
-      .pipe(first())
-      .subscribe((response: any[]) => {
-        this.extraParts = response;
-        this.extraPartsAux = response;
-      });
+  calculateTotalCost() {
+    if (!this.slot) {
+      return 0;
+    }
+    if (!isArray(this.slot.extraParts)) {
+      return 0;
+    }
+    let totalCost = 0;
+    this.slot.extraParts.forEach(part => {
+      totalCost += part.price;
+    });
+    return totalCost;
+  }
+
+  countParts(partId: string) {
+    if (!isArray(this.slot.extraParts)) {
+      return 0;
+    }
+    let count = 0;
+    this.slot.extraParts.forEach(part => {
+      if (part._id === partId) {
+        count++;
+      }
+    });
+    return count;
   }
 
   onChangeStatus(status: string) {
@@ -67,11 +105,7 @@ export class EditSlotComponent implements OnInit {
           );
         },
         error => {
-          this.notificationService.pushNotification(
-            'Something went wrong!',
-            NotificationType.WARNING,
-            3000
-          );
+          this.showErrorNotification();
         },
         () => {
           this.isUpdating = false;
@@ -84,8 +118,46 @@ export class EditSlotComponent implements OnInit {
     this.extraParts = this.extraPartsAux;
   }
 
-  onAddPart(part: any, index: number) {
-    this.isAddingPart = part._id;
+  onAddPart(part: any) {
+    this.isAddingPart[part._id] = true;
+    this.bookingService
+      .addOnePart(this.slot._id, part)
+      .pipe(first())
+      .subscribe(
+        response => {
+          this.slot.extraParts.push(Object.assign({}, part));
+        },
+        this.showErrorNotification,
+        () => {
+          delete this.isAddingPart[part._id];
+        }
+      );
+  }
+
+  onRemovePart(part: any) {
+    this.isRemovingPart[part._id] = true;
+    this.bookingService
+      .removeOnePart(this.slot._id, part._id)
+      .pipe(first())
+      .subscribe(
+        response => {
+          if (!isArray(this.slot.extraParts)) {
+            return;
+          }
+          let valueIndex;
+          this.slot.extraParts.some((extraPart: any, index: number) => {
+            if (extraPart._id === part._id) {
+              valueIndex = index;
+              return true;
+            }
+          });
+          this.slot.extraParts.splice(valueIndex, 1);
+        },
+        this.showErrorNotification,
+        () => {
+          delete this.isRemovingPart[part._id];
+        }
+      );
   }
 
   onChangeFindPart(value: string) {
@@ -97,5 +169,13 @@ export class EditSlotComponent implements OnInit {
       return;
     }
     this.extraParts = this.extraPartsAux;
+  }
+
+  private showErrorNotification() {
+    this.notificationService.pushNotification(
+      'Something went wrong!',
+      NotificationType.WARNING,
+      5000
+    );
   }
 }

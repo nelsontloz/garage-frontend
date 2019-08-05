@@ -14,13 +14,34 @@ export class BookingService {
     return this.http.get(`${environment.API_URL}/booking/one-slot`, { params });
   }
 
+  addOnePart(slotId: string, part: any) {
+    let params = new HttpParams();
+    params = params.append('slotId', slotId);
+    return this.http.put(`${environment.API_URL}/booking/one-slot-part`, part, {
+      params,
+    });
+  }
+
+  removeOnePart(slotId: string, partId: string) {
+    let params = new HttpParams();
+    params = params.append('slotId', slotId);
+    params = params.append('partId', partId);
+    return this.http.delete(`${environment.API_URL}/booking/one-slot-part`, {
+      params,
+    });
+  }
+
   updateSlotStatus(id: string, status: string) {
     let params = new HttpParams();
     params = params.append('slotId', id);
     params = params.append('status', status);
-    return this.http.put(`${environment.API_URL}/booking/one-slot-status`,{}, {
-      params,
-    });
+    return this.http.put(
+      `${environment.API_URL}/booking/one-slot-status`,
+      {},
+      {
+        params,
+      }
+    );
   }
 
   getSlotsByCustomer() {

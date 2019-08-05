@@ -78,7 +78,11 @@
         </header>
         <div class="card-content">
           <div class="content">
-            <table class="table">
+            <app-loading
+              *ngIf="!extraParts"
+              class="column is-full has-text-centered"
+            ></app-loading>
+            <table class="table" *ngIf="extraParts">
               <thead>
                 <tr>
                   <th>Part name</th>

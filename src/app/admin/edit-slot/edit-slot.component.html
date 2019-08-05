@@ -1,5 +1,10 @@
 <div class="section">
-  <div class="columns is-centered">
+  <app-loading
+    *ngIf="!slot"
+    class="column is-full has-text-centered"
+  ></app-loading>
+
+  <div class="columns is-centered" *ngIf="slot">
     <div class="column is-half-desktop is-four-fifths-tablet">
       <div class="card">
         <header class="card-header">
@@ -169,7 +174,7 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let part of extraParts; let i = index"
+                  *ngFor="let part of uniqueSlotParts; let i = index"
                   [hidden]="countParts(part._id) === 0"
                 >
                   <td>{{ part.name }}</td>

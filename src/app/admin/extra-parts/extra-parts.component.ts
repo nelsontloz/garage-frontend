@@ -28,7 +28,7 @@ export class ExtraPartsComponent implements OnInit {
   isAddingNewPart = false;
   isSaving = false;
   isRemoving = '';
-  extraParts = [];
+  extraParts = null;
   faEdit = faEdit;
   faTrash = faTrash;
   faPlus = faPlus;

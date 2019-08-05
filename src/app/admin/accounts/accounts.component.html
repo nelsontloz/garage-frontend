@@ -1,5 +1,9 @@
 <div class="section">
-  <div class="columns is-multiline">
+  <app-loading
+    *ngIf="!accounts"
+    class="column is-full has-text-centered"
+  ></app-loading>
+  <div class="columns is-multiline" *ngIf="accounts">
     <div
       class="column is-half-tablet is-one-third-desktop"
       *ngFor="let account of accounts"
@@ -12,7 +16,9 @@
                 {{ account.firstName + ' ' + account.lastName }}
               </p>
               <p class="subtitle is-6">
-                <a href="mailto:{{ account.email }}" target="_blank">{{ account.email }}</a>
+                <a href="mailto:{{ account.email }}" target="_blank">{{
+                  account.email
+                }}</a>
               </p>
             </div>
           </div>
@@ -28,6 +34,7 @@
           <button
             class="button is-danger"
             (click)="deleteCustomer(account._id)"
+            [ngClass]="{ 'is-loading': isDeleting === account._id }"
           >
             <span class="icon">
               <fa-icon [icon]="faTrash"></fa-icon>

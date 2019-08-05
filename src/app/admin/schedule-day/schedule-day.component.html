@@ -15,7 +15,13 @@
       </button>
     </div>
   </div>
-  <div id="schedule-list" class="columns is-multiline">
+
+  <app-loading
+    *ngIf="!slots"
+    class="column is-full has-text-centered"
+  ></app-loading>
+
+  <div id="schedule-list" class="columns is-multiline" *ngIf="slots">
     <div class="column is-half-tablet" *ngFor="let slot of slots">
       <div class="card">
         <header class="card-header">

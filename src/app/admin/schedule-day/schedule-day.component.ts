@@ -11,7 +11,7 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./schedule-day.component.scss'],
 })
 export class ScheduleDayComponent implements OnInit {
-  slots = [];
+  slots = null;
   date: moment.Moment;
   faPrint = faPrint;
 

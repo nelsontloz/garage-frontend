@@ -23,6 +23,7 @@ import { isArray } from 'util';
 })
 export class EditSlotComponent implements OnInit {
   slot = null;
+  uniqueSlotParts = [];
   faPlus = faPlus;
   faSpinner = faSpinner;
   faTimes = faTimes;
@@ -61,7 +62,16 @@ export class EditSlotComponent implements OnInit {
       )
       .subscribe((slot: Slot) => {
         this.slot = slot;
+        this.loadUniqueParts();
       });
+  }
+
+  loadUniqueParts() {
+    this.uniqueSlotParts = Array.from(
+      new Set(this.slot.extraParts.map(a => a._id))
+    ).map(id => {
+      return this.slot.extraParts.find(a => a._id === id);
+    });
   }
 
   calculateTotalCost() {
@@ -79,6 +89,9 @@ export class EditSlotComponent implements OnInit {
   }
 
   countParts(partId: string) {
+    if (!this.slot) {
+      return 0;
+    }
     if (!isArray(this.slot.extraParts)) {
       return 0;
     }
@@ -126,6 +139,7 @@ export class EditSlotComponent implements OnInit {
       .subscribe(
         response => {
           this.slot.extraParts.push(Object.assign({}, part));
+          this.loadUniqueParts();
         },
         this.showErrorNotification,
         () => {

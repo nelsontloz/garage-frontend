@@ -13,7 +13,8 @@ import {
   styleUrls: ['./accounts.component.scss'],
 })
 export class AccountsComponent implements OnInit {
-  accounts = [];
+  accounts = null;
+  isDeleting = '';
   faTrash = faTrash;
   constructor(
     private accountsService: AccountsService,
@@ -30,6 +31,7 @@ export class AccountsComponent implements OnInit {
   }
 
   deleteCustomer(accountId: string) {
+    this.isDeleting = accountId;
     this.accountsService
       .deleteCustomer(accountId)
       .pipe(first())
@@ -48,6 +50,9 @@ export class AccountsComponent implements OnInit {
             'Something went wrong, please try again later',
             NotificationType.DANGER
           );
+        },
+        () => {
+          this.isDeleting = '';
         }
       );
   }

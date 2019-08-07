@@ -142,6 +142,8 @@ export class EditSlotComponent implements OnInit {
         },
         error => {
           this.showErrorNotification();
+        },
+        () => {
           delete this.isAddingPart[part._id];
         }
       );
@@ -168,6 +170,8 @@ export class EditSlotComponent implements OnInit {
         },
         error => {
           this.showErrorNotification();
+        },
+        () => {
           delete this.isRemovingPart[part._id];
         }
       );

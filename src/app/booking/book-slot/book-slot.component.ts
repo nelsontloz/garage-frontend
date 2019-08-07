@@ -45,6 +45,7 @@ export class BookSlotComponent implements OnInit {
   carBrands = carBrands;
   dateMoment: moment.Moment;
   bookSlot;
+  isBookingSlot = false;
 
   vehicleForm = this.fb.group({
     licenseDetails: ['', Validators.required],
@@ -103,19 +104,29 @@ export class BookSlotComponent implements OnInit {
       this.vehicleForm.markAllAsTouched();
       return;
     }
+    this.isBookingSlot = true;
     const vehicleDetails = this.vehicleForm.value;
     const slotDetails = this.slotForm.value;
     slotDetails.vehicle = vehicleDetails;
     this.bookingService
       .bookSlot(this.bookSlot._id, slotDetails)
       .pipe(first())
-      .subscribe(() => {
-        this.notificationService.pushNotification(
-          'Slot booked successfully!',
-          NotificationType.SUCCESS
-        );
-        this.router.navigate(['/booking']);
-      });
+      .subscribe(
+        () => {
+          this.notificationService.pushNotification(
+            'Slot booked successfully!',
+            NotificationType.SUCCESS
+          );
+          this.router.navigate(['/booking']);
+        },
+        error => {
+          this.notificationService.pushNotification(
+            'Something went wrong, please try again later!',
+            NotificationType.DANGER
+          );
+          this.isBookingSlot = false;
+        }
+      );
   }
 
   navigateBack() {

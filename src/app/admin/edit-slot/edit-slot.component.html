@@ -5,7 +5,7 @@
   ></app-loading>
 
   <div class="columns is-centered" *ngIf="slot">
-    <div class="column is-half-desktop is-four-fifths-tablet">
+    <div class="column is-four-fifths-tablet is-two-thirds-desktop is-half-widescreen">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
@@ -248,20 +248,6 @@
                     <td>{{ countParts(part._id) }}</td>
                     <td class="actions-column">
                       <div class="buttons action-buttons is-hidden-touch">
-                        <!-- <button
-                          class="button is-danger is-small"
-                          (click)="onRemovePart(part, i)"
-                          [ngClass]="{
-                            'is-loading': isRemovingPart[part._id]
-                          }"
-                        >
-                          <span class="icon">
-                            <fa-icon [icon]="faTrash"></fa-icon>
-                          </span>
-                          <span>
-                            Remove
-                          </span>
-                        </button> -->
                         <button
                           class="button is-primary is-small"
                           (click)="onAddPart(part, i)"

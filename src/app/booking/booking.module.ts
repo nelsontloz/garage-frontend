@@ -8,17 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    BookingComponent,
-    BookDayComponent,
-    BookSlotComponent
-  ],
+  declarations: [BookingComponent, BookDayComponent, BookSlotComponent],
   imports: [
     CommonModule,
     BookingRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-  ]
+  ],
+  exports: [SharedModule, CommonModule],
 })
-export class BookingModule { }
+export class BookingModule {}

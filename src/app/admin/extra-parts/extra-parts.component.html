@@ -1,7 +1,7 @@
 <div class="section">
   <div class="columns is-centered">
     <div
-      class="column is-four-fifths-tablet is-two-thirds-desktop is-half-fullhd"
+      class="column is-four-fifths-tablet is-two-thirds-desktop is-half-widescreen"
     >
       <div class="card">
         <header class="card-header">
@@ -94,44 +94,19 @@
                 <tr *ngFor="let part of extraParts; let i = index">
                   <td>{{ part.name }}</td>
                   <td>{{ part.price | currency: 'EUR' }}</td>
-                  <td class="actions-column">
-                    <div class="buttons action-buttons is-hidden-touch">
-                      <button
-                        class="button is-danger is-small"
-                        (click)="onRemovePart(part._id, i)"
-                        [ngClass]="{ 'is-loading': isRemoving === part._id }"
-                      >
-                        <span class="icon">
-                          <fa-icon [icon]="faTrash"></fa-icon>
-                        </span>
-                        <span>
-                          Remove
-                        </span>
-                      </button>
-                      <button class="button is-info is-small">
-                        <span class="icon">
-                          <fa-icon [icon]="faEdit"></fa-icon>
-                        </span>
-                        <span>Edit</span>
-                      </button>
-                    </div>
-
-                    <div class="buttons action-buttons is-hidden-desktop">
-                      <button
-                        class="button is-danger is-small"
-                        (click)="onRemovePart(part._id, i)"
-                        [ngClass]="{ 'is-loading': isRemoving === part._id }"
-                      >
-                        <span>
-                          <fa-icon [icon]="faTrash"></fa-icon>
-                        </span>
-                      </button>
-                      <button class="button is-info is-small">
-                        <span>
-                          <fa-icon [icon]="faEdit"></fa-icon>
-                        </span>
-                      </button>
-                    </div>
+                  <td class="actions-column has-text-right">
+                    <button
+                      class="button is-danger is-small"
+                      (click)="onRemovePart(part._id, i)"
+                      [ngClass]="{ 'is-loading': isRemoving === part._id }"
+                    >
+                      <span class="icon">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                      </span>
+                      <span>
+                        Remove
+                      </span>
+                    </button>
                   </td>
                 </tr>
               </tbody>

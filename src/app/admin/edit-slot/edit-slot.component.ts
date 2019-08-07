@@ -116,11 +116,10 @@ export class EditSlotComponent implements OnInit {
             NotificationType.SUCCESS,
             3000
           );
+          this.isUpdating = false;
         },
         error => {
           this.showErrorNotification();
-        },
-        () => {
           this.isUpdating = false;
         }
       );
@@ -141,8 +140,8 @@ export class EditSlotComponent implements OnInit {
           this.slot.extraParts.push(Object.assign({}, part));
           this.loadUniqueParts();
         },
-        this.showErrorNotification,
-        () => {
+        error => {
+          this.showErrorNotification();
           delete this.isAddingPart[part._id];
         }
       );
@@ -158,7 +157,7 @@ export class EditSlotComponent implements OnInit {
           if (!isArray(this.slot.extraParts)) {
             return;
           }
-          let valueIndex;
+          let valueIndex: number;
           this.slot.extraParts.some((extraPart: any, index: number) => {
             if (extraPart._id === part._id) {
               valueIndex = index;
@@ -167,8 +166,8 @@ export class EditSlotComponent implements OnInit {
           });
           this.slot.extraParts.splice(valueIndex, 1);
         },
-        this.showErrorNotification,
-        () => {
+        error => {
+          this.showErrorNotification();
           delete this.isRemovingPart[part._id];
         }
       );

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import { first, flatMap } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import {
@@ -8,6 +8,8 @@ import {
 } from '../notification/notification.service';
 import { Account, AccountType } from '../interfaces/session.interface';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +19,14 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.email])],
-    password: [
-      '',
-      Validators.compose([Validators.required, Validators.minLength(6)]),
-    ],
+    password: ['', Validators.required],
   });
+  isLoading = false;
+  isRevokingSession = false;
+  revoking = false;
+  sessionId: string;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   constructor(
     private fb: FormBuilder,
@@ -45,6 +50,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     const formValues = this.loginForm.value;
+    this.isLoading = true;
     this.authService
       .authenticate(formValues.email, formValues.password)
       .pipe(first())
@@ -56,8 +62,15 @@ export class LoginComponent implements OnInit {
           );
           this.checkSession();
         },
-        error => {
-          console.log(error);
+        (errorResponse: HttpErrorResponse) => {
+          this.isLoading = false;
+          if (errorResponse.status === 409) {
+            this.isRevokingSession = true;
+            this.sessionId = errorResponse.error.sessionId;
+            return;
+          }
+          this.loginForm.controls.password.setValue('');
+          this.loginForm.controls.password.markAsUntouched();
           this.notificationService.pushNotification(
             'invalid credentials!',
             NotificationType.WARNING
@@ -78,5 +91,31 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/admin']);
         }
       });
+  }
+
+  revokeSession() {
+    this.revoking = true;
+    this.authService
+      .revoke(this.sessionId)
+      .pipe(first())
+      .subscribe(
+        () => {
+          this.onSubmit();
+          this.loginForm.controls.password.setValue('');
+          this.loginForm.controls.password.markAsUntouched();
+        },
+        error => {
+          this.revoking = false;
+          this.loginForm.controls.password.setValue('');
+          this.loginForm.controls.password.markAsUntouched();
+        }
+      );
+  }
+
+  noRevoke() {
+    this.revoking = false;
+    this.isRevokingSession = false;
+    this.loginForm.controls.password.setValue('');
+    this.loginForm.controls.password.markAsUntouched();
   }
 }

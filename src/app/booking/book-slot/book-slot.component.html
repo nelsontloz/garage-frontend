@@ -153,7 +153,7 @@
 
               <div class="field buttons-wrapper">
                 <div class="buttons is-pulled-right">
-                  <button class="button is-primary" type="submit">
+                  <button class="button is-primary" type="submit" [ngClass]="{'is-loading': isBookingSlot}">
                     Book Slot
                   </button>
 

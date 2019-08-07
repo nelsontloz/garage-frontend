@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, first, skipWhile } from 'rxjs/operators';
 import { ISession, Account } from './interfaces/session.interface';
 import { CookieService } from 'ngx-cookie-service';
@@ -39,14 +39,26 @@ export class AuthService {
     return this.http.post(`${environment.API_URL}/account`, values);
   }
 
-  revoke() {
-    return this.http.put(`${environment.API_URL}/auth/revoke`, {}).pipe(
+  logout() {
+    return this.http.put(`${environment.API_URL}/auth/logout`, {}).pipe(
       map((sessionResponse: ISession) => {
         this.removeAccount();
         this.cookiesService.delete('accessToken');
         return sessionResponse;
       })
     );
+  }
+
+  revoke(sessionId: string) {
+    return this.http
+      .put(`${environment.API_URL}/auth/revoke`, { sessionId })
+      .pipe(
+        map((sessionResponse: ISession) => {
+          this.removeAccount();
+          this.cookiesService.delete('accessToken');
+          return sessionResponse;
+        })
+      );
   }
 
   checkAuth() {

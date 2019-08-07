@@ -21,6 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CreateAccountComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
+  isLoading = false;
   accountForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -85,6 +86,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     }
     const formValues = this.accountForm.value;
     delete formValues.passwordConfirm;
+    this.isLoading = true;
     this.authService.signUp(formValues).subscribe(
       (response: any) => {
         this.notificationService.pushNotification(
@@ -92,12 +94,14 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
           NotificationType.SUCCESS
         );
         this.router.navigate(['/login']);
+        this.isLoading = false;
       },
       error => {
         this.notificationService.pushNotification(
           'An error has ocurred, please try again later.',
           NotificationType.DANGER
         );
+        this.isLoading = false;
       }
     );
   }

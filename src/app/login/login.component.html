@@ -1,49 +1,64 @@
 <div class="login section">
-
-    <div class="columns">
-
-        <div
-            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
-            <div class="box">
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <div class="columns">
-
-                        <div class="column is-half">
-                            <div class="field">
-                                <label class="label">Email</label>
-                                <div class="control">
-                                    <input class="input" type="email" placeholder="Email" formControlName="email" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column is-half">
-                            <div class="field">
-                                <label class="label">Password</label>
-                                <div class="control">
-                                    <input class="input" type="password" placeholder="Password"
-                                        formControlName="password" />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="field buttons-wrapper">
-                        <div class="columns is-pulled-right">
-
-                            <div class="buttons column">
-
-                                <button class="button is-primary" type="submit" [disabled]="loginForm.invalid">
-                                    Login
-                                </button>
-
-                                <a class="button" [routerLink]="[ '/home']">Cancel</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
+  <div class="columns">
+    <div
+      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
+    >
+      <div class="box">
+        <form
+          class="reactive-form"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="email"
+                    placeholder="Email"
+                    formControlName="email"
+                    [ngClass]="{ 'is-danger': isInvalidControl('email') }"
+                  />
+                </div>
+                <p *ngIf="isInvalidControl('email')" class="help is-danger">
+                  This field is required/invalid
+                </p>
+              </div>
             </div>
-        </div>
+
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="password"
+                    placeholder="Password"
+                    formControlName="password"
+                    [ngClass]="{ 'is-danger': isInvalidControl('password') }"
+                  />
+                </div>
+                <p *ngIf="isInvalidControl('password')" class="help is-danger">
+                  This field is required/invalid
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="field buttons-wrapper">
+            <div class="columns is-pulled-right">
+              <div class="buttons column">
+                <button class="button is-primary" type="submit">
+                  Login
+                </button>
+
+                <a class="button" [routerLink]="['/home']">Cancel</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

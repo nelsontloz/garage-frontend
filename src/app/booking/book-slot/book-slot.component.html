@@ -1,124 +1,171 @@
 <div class="create-account section">
-    <div class="columns">
-        <div
-            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
-
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        Vehicle Details
-                    </p>
-                </header>
-                <div class="card-content">
-                    <div class="content">
-
-                        <div class="field">
-                            <label class="label">Previous Registered Vehicles</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select [attr.disabled]="previousVehicles.length > 0 ? null : ''">
-                                        <option>
-                                            {{ previousVehicles.length > 0 ? 'Select Vehicle' : 'No previous registered' }}
-                                        </option>
-                                        <option *ngFor="let vehicle of previousVehicles">{{ vehicle.licenceNumber }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-
-                            <div class="field">
-                                <label class="label">Vehicle type</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="" formControlName="type" />
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Licence Nº</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="" formControlName="licenseDetails" />
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Engine Type</label>
-                                <div class="control">
-                                    <div class="select">
-                                        <select formControlName="engineType">
-                                            <option>Select type</option>
-                                            <option *ngFor="let engineType of engineTypes">{{ engineType }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                    <label class="label">Maker</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            <select formControlName="maker">
-                                                <option>Select type</option>
-                                                <option *ngFor="let make of carBrands">{{ make }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
+  <div class="columns">
+    <div
+      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
+    >
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Vehicle Details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <form
+              class="reactive-form"
+              [formGroup]="vehicleForm"
+              (ngSubmit)="onSubmit()"
+            >
+              <div class="field">
+                <label class="label">Vehicle type</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder=""
+                    formControlName="type"
+                    [ngClass]="{
+                      'is-danger': isInvalidControl(vehicleForm, 'type')
+                    }"
+                  />
                 </div>
-            </div>
 
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        Booking Details
-                    </p>
-                </header>
-                <div class="card-content">
-                    <div class="content">
+                <p
+                  *ngIf="isInvalidControl(vehicleForm, 'type')"
+                  class="help is-danger"
+                >
+                  This field is required
+                </p>
+              </div>
 
-                        <form [formGroup]="slotForm" (ngSubmit)="onSubmit()">
-
-                            <div class="field">
-                                <label class="label">Booking Type</label>
-                                <div class="control">
-                                    <div class="select">
-                                        <select formControlName="serviceType">
-                                            <option>Select...</option>
-                                            <option *ngFor="let serviceType of serviceTypes">{{ serviceType }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Comments - Notes</label>
-                                <div class="control">
-                                    <textarea class="textarea" placeholder="Any comments about the service...."
-                                        formControlName="customerComments"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="field buttons-wrapper">
-                                <div class="buttons is-pulled-right">
-                                    <button class="button is-primary" type="submit">
-                                        Book Slot
-                                    </button>
-
-                                    <a class="button" formAction="reset" (click)="navigateBack()">
-                                        Cancel
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+              <div class="field">
+                <label class="label">Licence Nº</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder=""
+                    formControlName="licenseDetails"
+                    [ngClass]="{
+                      'is-danger': isInvalidControl(
+                        vehicleForm,
+                        'licenseDetails'
+                      )
+                    }"
+                  />
                 </div>
-            </div>
+                <p
+                  *ngIf="isInvalidControl(vehicleForm, 'licenseDetails')"
+                  class="help is-danger"
+                >
+                  This field is required
+                </p>
+              </div>
+
+              <div class="columns">
+                <div class="column is-4">
+                  <div class="field">
+                    <label class="label">Engine Type</label>
+                    <div class="control">
+                      <div
+                        class="select"
+                        [ngClass]="{
+                          'is-danger': isInvalidControl(
+                            vehicleForm,
+                            'engineType'
+                          )
+                        }"
+                      >
+                        <select formControlName="engineType">
+                          <option>Select</option>
+                          <option *ngFor="let engineType of engineTypes"
+                            >{{ engineType }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="field">
+                    <label class="label">Maker</label>
+                    <div class="control">
+                      <div
+                        class="select"
+                        [ngClass]="{
+                          'is-danger': isInvalidControl(vehicleForm, 'maker')
+                        }"
+                      >
+                        <select formControlName="maker">
+                          <option>Select</option>
+                          <option *ngFor="let make of carBrands"
+                            >{{ make }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
+
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Booking Details
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <form [formGroup]="slotForm" (ngSubmit)="onSubmit()">
+              <div class="field">
+                <label class="label">Booking Type</label>
+                <div class="control">
+                  <div
+                    class="select"
+                    [ngClass]="{
+                      'is-danger': isInvalidControl(slotForm, 'serviceType')
+                    }"
+                  >
+                    <select formControlName="serviceType">
+                      <option>Select...</option>
+                      <option *ngFor="let serviceType of serviceTypes">{{
+                        serviceType
+                      }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Comments - Notes</label>
+                <div class="control">
+                  <textarea
+                    class="textarea"
+                    placeholder="Any comments about the service...."
+                    formControlName="customerComments"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="field buttons-wrapper">
+                <div class="buttons is-pulled-right">
+                  <button class="button is-primary" type="submit">
+                    Book Slot
+                  </button>
+
+                  <a class="button" formAction="reset" (click)="navigateBack()">
+                    Cancel
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

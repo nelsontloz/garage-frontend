@@ -26,3 +26,13 @@ a[disabled] {
     width: 100%;
   }
 }
+
+.reactive-form {
+  .field {
+    position: relative;
+    .help {
+      position: absolute;
+      right: 0;
+    }
+  }
+}

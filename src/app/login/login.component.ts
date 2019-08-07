@@ -17,7 +17,10 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.email])],
-    password: ['', Validators.required],
+    password: [
+      '',
+      Validators.compose([Validators.required, Validators.minLength(6)]),
+    ],
   });
 
   constructor(
@@ -31,30 +34,36 @@ export class LoginComponent implements OnInit {
     this.checkSession();
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const formValues = this.loginForm.value;
+  isInvalidControl(controlName: string) {
+    const formControl = this.loginForm.controls[controlName];
+    return formControl.touched && formControl.invalid;
+  }
 
-      this.authService
-        .authenticate(formValues.email, formValues.password)
-        .pipe(first())
-        .subscribe(
-          authenticated => {
-            this.notificationService.pushNotification(
-              'authenticated!',
-              NotificationType.INFO
-            );
-            this.checkSession();
-          },
-          error => {
-            console.log(error);
-            this.notificationService.pushNotification(
-              'invalid credentials!',
-              NotificationType.WARNING
-            );
-          }
-        );
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
     }
+    const formValues = this.loginForm.value;
+    this.authService
+      .authenticate(formValues.email, formValues.password)
+      .pipe(first())
+      .subscribe(
+        authenticated => {
+          this.notificationService.pushNotification(
+            'authenticated!',
+            NotificationType.INFO
+          );
+          this.checkSession();
+        },
+        error => {
+          console.log(error);
+          this.notificationService.pushNotification(
+            'invalid credentials!',
+            NotificationType.WARNING
+          );
+        }
+      );
   }
 
   checkSession() {

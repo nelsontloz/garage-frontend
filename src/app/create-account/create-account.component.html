@@ -1,65 +1,122 @@
 <div class="create-account section">
-    <div class="columns">
-        <div
-            class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet">
-
-            <div class="box">
-                <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-
-                    <div class="field">
-                        <label class="label">First Name</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="" formControlName="firstName" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Last Name</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="" formControlName="lastName" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Phone Number</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="" formControlName="phone" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input class="input" type="email" placeholder="" formControlName="email" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control">
-                            <input class="input" type="password" placeholder="" formControlName="password" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Confirm password</label>
-                        <div class="control">
-                            <input class="input" type="password" placeholder="" formControlName="passwordConfirm" />
-                        </div>
-                    </div>
-                    <div class="field buttons-wrapper">
-                        <div class="buttons is-pulled-right">
-                            <button class="button is-primary" type="submit" [disabled]="accountForm.invalid">
-                                Create user
-                            </button>
-
-                            <button class="button" formAction="reset">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </form>
+  <div class="columns">
+    <div
+      class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"
+    >
+      <div class="box">
+        <form
+          class="reactive-form"
+          [formGroup]="accountForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="field">
+            <label class="label">First Name</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder=""
+                formControlName="firstName"
+                [ngClass]="{ 'is-danger': isInvalidControl('firstName') }"
+              />
             </div>
-        </div>
+            <p *ngIf="isInvalidControl('firstName')" class="help is-danger">
+              This field is required
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Last Name</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder=""
+                formControlName="lastName"
+                [ngClass]="{ 'is-danger': isInvalidControl('lastName') }"
+              />
+            </div>
+            <p *ngIf="isInvalidControl('lastName')" class="help is-danger">
+              This field is required
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Phone Number</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder=""
+                formControlName="phone"
+                [ngClass]="{ 'is-danger': isInvalidControl('phone') }"
+              />
+            </div>
+            <p *ngIf="isInvalidControl('phone')" class="help is-danger">
+              This field is required
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input
+                class="input"
+                type="email"
+                placeholder=""
+                formControlName="email"
+                [ngClass]="{ 'is-danger': isInvalidControl('email') }"
+              />
+            </div>
+            <p *ngIf="isInvalidControl('email')" class="help is-danger">
+              This field is required/invalid
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input
+                class="input"
+                type="password"
+                placeholder=""
+                formControlName="password"
+                [ngClass]="{ 'is-danger': isInvalidControl('password') }"
+              />
+            </div>
+            <p *ngIf="isInvalidControl('email')" class="help is-danger">
+              This field is required - min length 6
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label">Confirm password</label>
+            <div class="control">
+              <input
+                class="input"
+                type="password"
+                placeholder=""
+                formControlName="passwordConfirm"
+                [ngClass]="{ 'is-danger': isInvalidControl('passwordConfirm') }"
+              />
+            </div>
+            <p *ngIf="isInvalidControl('email')" class="help is-danger">
+              Passwords do not match - min length 6
+            </p>
+          </div>
+          <div class="field buttons-wrapper">
+            <div class="buttons is-pulled-right">
+              <button class="button is-primary" type="submit">
+                Create user
+              </button>
+
+              <button class="button" formAction="reset">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

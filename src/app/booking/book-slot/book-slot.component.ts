@@ -6,6 +6,7 @@ import {
   Validators,
   ValidatorFn,
   AbstractControl,
+  FormGroup,
 } from '@angular/forms';
 
 import { first } from 'rxjs/operators';
@@ -47,18 +48,17 @@ export class BookSlotComponent implements OnInit {
 
   vehicleForm = this.fb.group({
     licenseDetails: ['', Validators.required],
-    engineType: ['', this.forbiddenNameValidator(this.engineTypes)],
+    engineType: ['', this.selectInputValidator(this.engineTypes)],
     type: ['', Validators.required],
     maker: ['', Validators.required],
   });
 
   slotForm = this.fb.group({
-    serviceType: ['', this.forbiddenNameValidator(this.serviceTypes)],
+    serviceType: ['', this.selectInputValidator(this.serviceTypes)],
     customerComments: [''],
   });
 
   account: Account;
-  previousVehicles = [];
 
   constructor(
     private router: Router,
@@ -92,7 +92,17 @@ export class BookSlotComponent implements OnInit {
     });
   }
 
+  isInvalidControl(formGroup: FormGroup, controlName: string) {
+    const formControl = formGroup.controls[controlName];
+    return formControl.touched && formControl.invalid;
+  }
+
   onSubmit() {
+    if (this.slotForm.invalid || this.vehicleForm.invalid) {
+      this.slotForm.markAllAsTouched();
+      this.vehicleForm.markAllAsTouched();
+      return;
+    }
     const vehicleDetails = this.vehicleForm.value;
     const slotDetails = this.slotForm.value;
     slotDetails.vehicle = vehicleDetails;
@@ -112,7 +122,7 @@ export class BookSlotComponent implements OnInit {
     this.location.back();
   }
 
-  private forbiddenNameValidator(array: string[]): ValidatorFn {
+  private selectInputValidator(array: string[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const valueIndex = array.indexOf(control.value);
       return valueIndex < 0
@@ -141,12 +151,12 @@ const carBrands = [
   'AUDI',
   'BAC',
   'BAJAJ',
-  'BEIJING AUTOMOBILE WORKS',
+  'BEIJING AUTOMOBILE',
   'BENTLEY',
   'BMW',
   'BOLLORÉ',
   'BOLWELL',
-  'BRILLIANCE / HUACHEN',
+  'BRILLIANCE/HUACHEN',
   'BRISTOL',
   'BRITISH LEYLAND',
   'BRM BUGGY',
@@ -181,7 +191,7 @@ const carBrands = [
   'DONGFENG',
   'DONTO',
   'DS AUTOMOBILES',
-  'DYNASTI ELECTRIC CAR CORP.',
+  'DYNASTI ELECTRIC',
   'E-VADE',
   'EFFEDI',
   'EGY-TECH ENGINEERING',
@@ -214,7 +224,7 @@ const carBrands = [
   'GINETTA',
   'GMC',
   'GONOW',
-  'GREAT WALL / CHANGCHENG',
+  'GREAT WALL/CHANGCHENG',
   'GREENTECH AUTOMOTIVE',
   'GRINNALL',
   'GTA MOTOR',
@@ -347,7 +357,7 @@ const carBrands = [
   'SPYKER',
   'SSANGYONG',
   'SSC NORTH AMERICA',
-  'STREET & RACING TECHNOLOGY',
+  'STREET & RACING',
   'SUBARU',
   'SUZUKI',
   'TANOM',

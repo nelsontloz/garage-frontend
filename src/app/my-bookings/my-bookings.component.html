@@ -1,4 +1,9 @@
 <div class="section">
+  <app-loading
+    *ngIf="!slots || slots.length === 0"
+    class="column is-full has-text-centered"
+  ></app-loading>
+
   <div class="columns" *ngIf="slots.length > 0">
     <div
       class="column is-half-desktop is-offset-one-quarter-desktop is-two-thirds-tablet is-three-fifths-tablet is-offset-one-fifth-tablet"

@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NotificationComponent } from './notification/notification.component';
 import { HomeComponent } from './home/home.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MyBookingsComponent } from './my-bookings/my-bookings.component';
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    SharedModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

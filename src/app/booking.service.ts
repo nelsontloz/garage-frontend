@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
+import { DateTime } from 'luxon';
 @Injectable({
   providedIn: 'root',
 })
@@ -48,38 +48,39 @@ export class BookingService {
     return this.http.get(`${environment.API_URL}/booking/my-slots`);
   }
 
-  getSlotsByDate(date: moment.Moment) {
+  getSlotsByDate(date: Date) {
+    const dateLux = DateTime.fromJSDate(date);
     let params = new HttpParams();
-    params = params.append('date', date.format('DD-MM-YYYY'));
+    params = params.append('date', dateLux.toFormat('dd-MM-yyyy'));
     return this.http.get(`${environment.API_URL}/booking`, { params });
   }
 
-  getSlotsCountByDateRange(startDate: moment.Moment, endDate: moment.Moment) {
+  getSlotsCountByDateRange(startDate: Date, endDate: Date) {
+    const start = DateTime.fromJSDate(startDate);
+    const end = DateTime.fromJSDate(endDate);
     let params = new HttpParams();
-    params = params.append('startDate', startDate.format('DD-MM-YYYY'));
-    params = params.append('endDate', endDate.format('DD-MM-YYYY'));
+    params = params.append('startDate', start.toFormat('dd-MM-yyyy'));
+    params = params.append('endDate', end.toFormat('dd-MM-yyyy'));
     return this.http.get(`${environment.API_URL}/booking/slots`, { params });
   }
 
-  getBookedSlotsCountByDateRange(
-    startDate: moment.Moment,
-    endDate: moment.Moment
-  ) {
+  getBookedSlotsCountByDateRange(startDate: Date, endDate: Date) {
+    const start = DateTime.fromJSDate(startDate);
+    const end = DateTime.fromJSDate(endDate);
     let params = new HttpParams();
-    params = params.append('startDate', startDate.format('DD-MM-YYYY'));
-    params = params.append('endDate', endDate.format('DD-MM-YYYY'));
+    params = params.append('startDate', start.toFormat('dd-MM-yyyy'));
+    params = params.append('endDate', end.toFormat('dd-MM-yyyy'));
     return this.http.get(`${environment.API_URL}/booking/booked-slots`, {
       params,
     });
   }
 
-  getBookedSlotsDetailsDateRange(
-    startDate: moment.Moment,
-    endDate: moment.Moment
-  ) {
+  getBookedSlotsDetailsDateRange(startDate: Date, endDate: Date) {
+    const start = DateTime.fromJSDate(startDate);
+    const end = DateTime.fromJSDate(endDate);
     let params = new HttpParams();
-    params = params.append('startDate', startDate.format('DD-MM-YYYY'));
-    params = params.append('endDate', endDate.format('DD-MM-YYYY'));
+    params = params.append('startDate', start.toFormat('dd-MM-yyyy'));
+    params = params.append('endDate', end.toFormat('dd-MM-yyyy'));
     return this.http.get(
       `${environment.API_URL}/booking/booked-slots-details`,
       {
@@ -88,7 +89,7 @@ export class BookingService {
     );
   }
 
-  getSlotByDate(date: moment.Moment) {
+  getSlotByDate(date: Date) {
     let params = new HttpParams();
     params = params.append('date', date.toISOString());
     return this.http.get(`${environment.API_URL}/booking/slot`, { params });

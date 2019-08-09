@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="column">
       <span class="title is-4">
-        {{ date.format('LL') }}
+        {{ date.toFormat('DDDD') }}
       </span>
       <button
         class="button is-pulled-right is-hidden-print"
@@ -26,7 +26,7 @@
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
-            {{ slot.date.format('HH:mm') }}
+            {{ slot.date.toFormat('HH:mm') }}
           </p>
           <span class="card-header-icon">
             <button

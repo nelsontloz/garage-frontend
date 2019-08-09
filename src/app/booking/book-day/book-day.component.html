@@ -15,7 +15,7 @@
         <div class="card-content">
           <div class="content" *ngFor="let slot of slots">
             <span [ngClass]="{ 'has-text-grey-light': slot.status !== 'free' }">
-              {{ slot.date.format('H:mm') }}
+              {{ slot.date.toFormat('H:mm') }}
             </span>
             <span>
               <button

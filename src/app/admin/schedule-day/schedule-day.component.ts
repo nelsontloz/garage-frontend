@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingService } from 'src/app/booking.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import * as moment from 'moment';
 import { first } from 'rxjs/operators';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-schedule-day',
@@ -12,7 +12,7 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons';
 })
 export class ScheduleDayComponent implements OnInit {
   slots = null;
-  date: moment.Moment;
+  date: DateTime;
   faPrint = faPrint;
 
   constructor(
@@ -22,17 +22,17 @@ export class ScheduleDayComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((queryParams: Params) => {
-      this.date = moment(queryParams.date, 'DD-MM-YYYY');
+      this.date = DateTime.fromFormat(queryParams.date, 'dd-MM-yyyy');
       this.bookingService
         .getBookedSlotsDetailsDateRange(
-          this.date,
-          this.date.clone().add(1, 'day')
+          this.date.toJSDate(),
+          this.date.plus({ day: 1 }).toJSDate()
         )
         .pipe(first())
         .subscribe((response: any[]) => {
           this.slots = response
             .map((slot: any) => {
-              slot.date = moment(slot.date);
+              slot.date = DateTime.fromISO(slot.date);
               return slot;
             })
             .sort((a, b) => {
@@ -43,19 +43,14 @@ export class ScheduleDayComponent implements OnInit {
   }
 
   printSchedule() {
-    // let scheduleListElem = document.getElementById('schedule-list');
-
     window.print();
   }
 
   printElem(divName) {
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-
+    const printContents = document.getElementById(divName).innerHTML;
+    const originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
-
     window.print();
-
     document.body.innerHTML = originalContents;
   }
 }

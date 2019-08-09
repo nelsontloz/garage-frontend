@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingService } from 'src/app/booking.service';
-import * as moment from 'moment';
 import calendar from 'calendar-js';
 import { first } from 'rxjs/operators';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-schedule',
@@ -11,51 +11,54 @@ import { first } from 'rxjs/operators';
 })
 export class ScheduleComponent implements OnInit {
   months: CalendarType[] = [];
-  currentDate = moment();
+  currentDate = DateTime.local();
 
   selectedMonth = {};
   slotsByDate = null;
 
-  constructor(private bookingService: BookingService) {
-    const initialDate = moment();
+  constructor(private bookingService: BookingService) {}
+
+  ngOnInit() {
+    const date = new Date();
     for (let i = 0; i < 10; i++) {
       const month = (calendar() as any).detailed(
-        initialDate.year(),
-        initialDate.month()
+        date.getFullYear(),
+        date.getMonth()
       );
 
       this.months.push(month);
-      initialDate.add(1, 'months');
+      date.setMonth(date.getMonth() + 1);
     }
     this.setMonth(this.months[0]);
   }
-
-  ngOnInit() {}
 
   setMonth(month: CalendarType) {
     if (this.selectedMonth === month) {
       return;
     }
     this.selectedMonth = month;
-    const startDate = moment(month.month + '-' + month.year, 'MMMM-YYYY');
-    const endDate = startDate.clone().add(1, 'month');
+    const startDate = DateTime.fromFormat(
+      month.month + '-' + month.year,
+      'MMMM-yyyy'
+    );
+    const endDate = startDate.plus({ month: 1 });
 
     this.slotsByDate = null;
     this.bookingService
-      .getBookedSlotsCountByDateRange(startDate, endDate)
+      .getBookedSlotsCountByDateRange(startDate.toJSDate(), endDate.toJSDate())
       .pipe(first())
       .subscribe((response: any) => {
         this.slotsByDate = {};
         response.forEach((slotCount: any) => {
-          const dateMoment = moment(slotCount.date);
-          this.slotsByDate[dateMoment.format('DD-MM-YYYY')] = slotCount.slots;
+          const dateLux = DateTime.fromISO(slotCount.date);
+          this.slotsByDate[dateLux.toFormat('dd-MM-yyyy')] = slotCount.slots;
         });
       });
   }
 
   getDaySlots(date: Date) {
-    const dateMoment = moment(date);
-    const slots = this.slotsByDate[dateMoment.format('DD-MM-YYYY')];
+    const dateLux = DateTime.fromJSDate(date);
+    const slots = this.slotsByDate[dateLux.toFormat('dd-MM-yyyy')];
     return slots ? slots : 0;
   }
 
@@ -64,6 +67,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   generateQueryParam(date: Date) {
-    return moment(date).format('DD-MM-YYYY');
+    return DateTime.fromJSDate(date).toFormat('dd-MM-yyyy');
   }
 }

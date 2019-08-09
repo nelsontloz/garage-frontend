@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingService } from '../booking.service';
 import { AuthService } from '../auth.service';
-import { first, map } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Account } from '../interfaces/session.interface';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-bookings',
@@ -30,13 +29,7 @@ export class MyBookingsComponent implements OnInit {
     this.bookingService
       .getSlotsByCustomer()
       .pipe(
-        first(),
-        map((slots: any[]) => {
-          slots.forEach((slot: any) => {
-            slot.date = moment(slot.date);
-          });
-          return slots;
-        })
+        first()
       )
       .subscribe((slots: any) => {
         this.slots = slots;

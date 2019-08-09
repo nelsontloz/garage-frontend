@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map, first, skipWhile } from 'rxjs/operators';
 import { ISession, Account } from './interfaces/session.interface';
 import { CookieService } from 'ngx-cookie-service';
-import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { isUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root',
@@ -92,7 +90,7 @@ export class AuthService {
           this.cookiesService.set(
             'accessToken',
             sessionResponse.accessToken,
-            moment(sessionResponse.expiration).toDate()
+            new Date(sessionResponse.expiration)
           );
           this.accountChangeSub.next(sessionResponse.account);
           return true;

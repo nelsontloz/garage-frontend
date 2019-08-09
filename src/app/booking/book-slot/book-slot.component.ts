@@ -10,7 +10,6 @@ import {
 } from '@angular/forms';
 
 import { first } from 'rxjs/operators';
-import * as moment from 'moment';
 
 import { BookingService } from '../../booking.service';
 import { AuthService } from 'src/app/auth.service';
@@ -19,6 +18,7 @@ import {
   NotificationService,
   NotificationType,
 } from 'src/app/notification/notification.service';
+import { DateTime } from 'luxon';
 
 export enum BookingServiceType {
   ANNUAL_SERVICE = 'Annual Service',
@@ -43,7 +43,7 @@ export class BookSlotComponent implements OnInit {
   serviceTypes = Object.values(BookingServiceType);
   engineTypes = Object.values(VehicleEngineType);
   carBrands = carBrands;
-  dateMoment: moment.Moment;
+  dateLux: DateTime;
   bookSlot;
   isBookingSlot = false;
 
@@ -76,9 +76,9 @@ export class BookSlotComponent implements OnInit {
       this.account = account;
     });
     this.activatedRoute.queryParams.subscribe((queryParams: Params) => {
-      this.dateMoment = moment(queryParams.date, 'DD-MM-YYYY HH:mm');
+      this.dateLux = DateTime.fromFormat(queryParams.date, 'dd-MM-yyyy HH:mm');
       this.bookingService
-        .getSlotByDate(this.dateMoment)
+        .getSlotByDate(this.dateLux.toJSDate())
         .pipe(first())
         .subscribe(response => {
           this.bookSlot = response;
